@@ -59,7 +59,7 @@ namespace ShareMyCalendar.Authentication.Services
             
             var claims = await _userManager.GetClaimsAsync(user);
 
-            return new LoginSuccessResponse(user, _accessTokenGenerator.GenerateAccessToken(claims));
+            return new LoginSuccessResponse(user.Id, user.UserName, user.Email, _accessTokenGenerator.GenerateAccessToken(claims));
         }
 
         public async Task<ChangePasswordResponse> ChangePassword(ChangePasswordRequest changePasswordRequest)

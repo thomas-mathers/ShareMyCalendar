@@ -174,8 +174,7 @@ namespace ShareMyCalendar.Authentication.Tests
             // Assert
             Assert.NotNull(result);
             Assert.True(result.IsT5);
-            Assert.NotNull(result.AsT5.User);
-            Assert.Equal(_username, result.AsT5.User.UserName);
+            Assert.Equal(_username, result.AsT5.UserName);
             Assert.Equal(_accessToken, result.AsT5.AccessToken);
         }
 

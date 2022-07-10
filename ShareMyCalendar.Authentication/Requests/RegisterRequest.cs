@@ -7,6 +7,8 @@ namespace ShareMyCalendar.Authentication.Requests
         [Required]
         public string UserName { get; init; }
         [Required]
+        public string Email { get; init; }
+        [Required]
         public string Password { get; init; }
     }
 }

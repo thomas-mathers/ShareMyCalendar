@@ -15,12 +15,14 @@ namespace ShareMyCalendar.Authentication.Tests
 {
     public class UserServiceIntegrationTests
     {
-        private readonly UserManager<User> _userManager;
         private readonly IUserService _sut;
-        private const string _username = "thomas.mathers.pro@gmail.com";
-        private const string _password1 = "P@sSw0rd1!";
-        private const string _password2 = "P@sSw0rd2!";
-        private readonly User _user = new() { UserName = _username, Email = _username };
+        private readonly UserManager<User> _userManager;
+        private const string _username1 = "tmathers";
+        private const string _username2 = "didymus";
+        private const string _email1 = "thomas.mathers.pro@gmail.com";
+        private const string _email2 = "mathers_thomas@hotmail.com";
+        private const string _password = "P@sSw0rd1!";
+        private readonly User _user = new() { UserName = _username1, Email = _email1 };
 
         public UserServiceIntegrationTests()
         {
@@ -49,9 +51,11 @@ namespace ShareMyCalendar.Authentication.Tests
         }
 
         [Theory]
-        [InlineData("")]
+        [InlineData("@")]
         [InlineData("a@")]
-        public async Task Register_InvalidUsername_ReturnsIdentityErrorResponse(string username)
+        [InlineData("@a")]
+        [InlineData("a")]
+        public async Task Register_InvalidEmail_ReturnsIdentityErrorResponse(string email)
         {
             // Arrange
             var expectedErrors = new List<IdentityError>
@@ -65,14 +69,150 @@ namespace ShareMyCalendar.Authentication.Tests
             // Act
             var registerResponse = await _sut.Register(new RegisterRequest
             {
-                UserName = username,
-                Password = _password1
+                UserName = _username1,
+                Email = email,
+                Password = _password
             });
 
             // Assert
             Assert.NotNull(registerResponse);
             Assert.True(registerResponse.IsT0);
             Assert.Equal(expectedErrors, registerResponse.AsT0.Errors, new IdentityErrorComparer());
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData("!@#$%^&*()_+")]
+        [InlineData("Thomas!")]
+        public async Task Register_InvalidUsername_ReturnsIdentityErrorResponse(string username)
+        {
+            // Arrange
+            var expectedErrors = new List<IdentityError>
+            {
+                new IdentityError
+                {
+                    Code = "InvalidUserName"
+                }
+            };
+
+            // Act
+            var registerResponse = await _sut.Register(new RegisterRequest
+            {
+                UserName = username,
+                Email = _email1,
+                Password = _password
+            });
+
+            // Assert
+            Assert.NotNull(registerResponse);
+            Assert.True(registerResponse.IsT0);
+            Assert.Equal(expectedErrors, registerResponse.AsT0.Errors, new IdentityErrorComparer());
+        }
+
+        [Theory]
+        [InlineData("aB(1", "PasswordTooShort")]
+        [InlineData("aB(12", "PasswordTooShort")]
+        [InlineData("aB(def", "PasswordRequiresDigit")]
+        [InlineData("a2345@", "PasswordRequiresUpper")]
+        [InlineData("A2345@", "PasswordRequiresLower")]
+        [InlineData("aB3456", "PasswordRequiresNonAlphanumeric")]
+        public async Task Register_InvalidPassword_ReturnsIdentityErrorResponse(string password, string expectedValidationError)
+        {
+            // Arrange
+            await _userManager.CreateAsync(_user, _password);
+
+            var expectedErrors = new List<IdentityError>
+            {
+                new IdentityError
+                {
+                    Code = expectedValidationError
+                }
+            };
+
+            // Act
+            var registerResponse = await _sut.Register(new RegisterRequest
+            {
+                UserName = _username1,
+                Email = _email1,
+                Password = password
+            });
+
+            // Assert
+            Assert.NotNull(registerResponse);
+            Assert.True(registerResponse.IsT0);
+            Assert.Equal(expectedErrors, registerResponse.AsT0.Errors, new IdentityErrorComparer());
+        }
+
+        [Fact]
+        public async Task Register_DuplicateUserName_ReturnsIdentityErrorResponse()
+        {
+            // Arrange
+            await _userManager.CreateAsync(_user, _password);
+
+            var expectedErrors = new List<IdentityError>
+            {
+                new IdentityError
+                {
+                    Code = "DuplicateUserName"
+                }
+            };
+
+            // Act
+            var registerResponse = await _sut.Register(new RegisterRequest
+            {
+                UserName = _username1,
+                Email = _email2,
+                Password = _password
+            });
+
+            // Assert
+            Assert.NotNull(registerResponse);
+            Assert.True(registerResponse.IsT0);
+            Assert.Equal(expectedErrors, registerResponse.AsT0.Errors, new IdentityErrorComparer());
+        }
+
+        [Fact]
+        public async Task Register_DuplicateEmail_ReturnsIdentityErrorResponse()
+        {
+            // Arrange
+            await _userManager.CreateAsync(_user, _password);
+
+            var expectedErrors = new List<IdentityError>
+            {
+                new IdentityError
+                {
+                    Code = "DuplicateEmail"
+                }
+            };
+
+            // Act
+            var registerResponse = await _sut.Register(new RegisterRequest
+            {
+                UserName = _username2,
+                Email = _email1,
+                Password = _password
+            });
+
+            // Assert
+            Assert.NotNull(registerResponse);
+            Assert.True(registerResponse.IsT0);
+            Assert.Equal(expectedErrors, registerResponse.AsT0.Errors, new IdentityErrorComparer());
+        }
+
+        [Fact]
+        public async Task Register_Valid_ReturnsSuccessResponse()
+        {
+            // Act
+            var registerResponse = await _sut.Register(new RegisterRequest
+            {
+                UserName = _username1,
+                Email = _email1,
+                Password = _password
+            });
+
+            // Assert
+            Assert.NotNull(registerResponse);
+            Assert.True(registerResponse.IsT1);
         }
     }
 }

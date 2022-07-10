@@ -17,10 +17,11 @@ namespace ShareMyCalendar.Authentication.Tests
     {
         private readonly UserManager<User> _userManager;
         private readonly IAuthService _sut;
-        private const string _username = "thomas.mathers.pro@gmail.com";
+        private const string _username = "tmathers";
+        private const string _email = "thomas.mathers.pro@gmail.com";
         private const string _password1 = "P@sSw0rd1!";
         private const string _password2 = "P@sSw0rd2!";
-        private readonly User _user = new() { UserName = _username, Email = _username };
+        private readonly User _user = new() { UserName = _username, Email = _email };
 
         public AuthServiceIntegrationTests()
         {
@@ -160,38 +161,13 @@ namespace ShareMyCalendar.Authentication.Tests
         }
 
         [Theory]
-        [InlineData("aB(1")]
-        [InlineData("aB(12")]
-        public async Task ChangePassword_ShortPassword_ReturnsIdentityErrorResponse(string newPassword)
-        {
-            // Arrange
-            await _userManager.CreateAsync(_user, _password1);
-
-            var expectedErrors = new List<IdentityError>
-            { 
-                new IdentityError 
-                { 
-                    Code = "PasswordTooShort"
-                } 
-            };
-
-            // Act
-            var changePassword = await _sut.ChangePassword(new ChangePasswordRequest
-            {
-                UserName = _username,
-                CurrentPassword = _password1,
-                NewPassword = newPassword
-            });
-
-            // Assert
-            Assert.NotNull(changePassword);
-            Assert.True(changePassword.IsT1);
-            Assert.Equal(expectedErrors, changePassword.AsT1.Errors, new IdentityErrorComparer());
-        }
-
-        [Theory]
-        [InlineData("aB(def")]
-        public async Task ChangePassword_NoNumber_ReturnsIdentityErrorResponse(string newPassword)
+        [InlineData("aB(1", "PasswordTooShort")]
+        [InlineData("aB(12", "PasswordTooShort")]
+        [InlineData("aB(def", "PasswordRequiresDigit")]
+        [InlineData("a2345@", "PasswordRequiresUpper")]
+        [InlineData("A2345@", "PasswordRequiresLower")]
+        [InlineData("aB3456", "PasswordRequiresNonAlphanumeric")]
+        public async Task ChangePassword_InvalidPassword_ReturnsIdentityErrorResponse(string newPassword, string expectedValidationError)
         {
             // Arrange
             await _userManager.CreateAsync(_user, _password1);
@@ -200,94 +176,7 @@ namespace ShareMyCalendar.Authentication.Tests
             {
                 new IdentityError
                 {
-                    Code = "PasswordRequiresDigit"
-                }
-            };
-
-            // Act
-            var changePassword = await _sut.ChangePassword(new ChangePasswordRequest
-            {
-                UserName = _username,
-                CurrentPassword = _password1,
-                NewPassword = newPassword
-            });
-
-            // Assert
-            Assert.NotNull(changePassword);
-            Assert.True(changePassword.IsT1);
-            Assert.Equal(expectedErrors, changePassword.AsT1.Errors, new IdentityErrorComparer());
-        }
-
-        [Theory]
-        [InlineData("a2345@")]
-        public async Task ChangePassword_NoUpperLetter_ReturnsIdentityErrorResponse(string newPassword)
-        {
-            // Arrange
-            await _userManager.CreateAsync(_user, _password1);
-
-            var expectedErrors = new List<IdentityError>
-            {
-                new IdentityError
-                {
-                    Code = "PasswordRequiresUpper"
-                }
-            };
-
-            // Act
-            var changePassword = await _sut.ChangePassword(new ChangePasswordRequest
-            {
-                UserName = _username,
-                CurrentPassword = _password1,
-                NewPassword = newPassword
-            });
-
-            // Assert
-            Assert.NotNull(changePassword);
-            Assert.True(changePassword.IsT1);
-            Assert.Equal(expectedErrors, changePassword.AsT1.Errors, new IdentityErrorComparer());
-        }
-
-        [Theory]
-        [InlineData("A2345@")]
-        public async Task ChangePassword_NoLowerLetter_ReturnsIdentityErrorResponse(string newPassword)
-        {
-            // Arrange
-            await _userManager.CreateAsync(_user, _password1);
-
-            var expectedErrors = new List<IdentityError>
-            {
-                new IdentityError
-                {
-                    Code = "PasswordRequiresLower"
-                }
-            };
-
-            // Act
-            var changePassword = await _sut.ChangePassword(new ChangePasswordRequest
-            {
-                UserName = _username,
-                CurrentPassword = _password1,
-                NewPassword = newPassword
-            });
-
-            // Assert
-            Assert.NotNull(changePassword);
-            Assert.True(changePassword.IsT1);
-            Assert.Equal(expectedErrors, changePassword.AsT1.Errors, new IdentityErrorComparer());
-        }
-
-        [Theory]
-        [InlineData("aB3456")]
-        public async Task ChangePassword_NoSpecialCharacter_ReturnsIdentityErrorResponse(string newPassword)
-        {
-            // Arrange
-            await _userManager.CreateAsync(_user, _password1);
-
-            var expectedErrors = new List<IdentityError>
-            {
-                new IdentityError
-                {
-                    Code = "PasswordRequiresNonAlphanumeric"
+                    Code = expectedValidationError
                 }
             };
 
@@ -398,9 +287,14 @@ namespace ShareMyCalendar.Authentication.Tests
         }
 
         [Theory]
-        [InlineData("aB(1")]
-        [InlineData("aB(12")]
-        public async Task ResetPassword_ShortPassword_ReturnsIdentityErrorResponse(string newPassword)
+        [InlineData("aB(1", "PasswordTooShort")]
+        [InlineData("aB(12", "PasswordTooShort")]
+        [InlineData("aB(def", "PasswordRequiresDigit")]
+        [InlineData("a2345@", "PasswordRequiresUpper")]
+        [InlineData("A2345@", "PasswordRequiresLower")]
+        [InlineData("aB3456", "PasswordRequiresNonAlphanumeric")]
+
+        public async Task ResetPassword_InvalidPassword_ReturnsIdentityErrorResponse(string newPassword, string expectedValidationError)
         {
             // Arrange
             await _userManager.CreateAsync(_user, _password1);
@@ -411,131 +305,7 @@ namespace ShareMyCalendar.Authentication.Tests
             {
                 new IdentityError
                 {
-                    Code = "PasswordTooShort"
-                }
-            };
-
-            // Act
-            var resetPassword = await _sut.ResetPassword(new ResetPasswordRequest
-            {
-                UserName = _username,
-                Token = token,
-                Password = newPassword
-            });
-
-            // Assert
-            Assert.NotNull(resetPassword);
-            Assert.True(resetPassword.IsT1);
-            Assert.Equal(expectedErrors, resetPassword.AsT1.Errors, new IdentityErrorComparer());
-        }
-
-        [Theory]
-        [InlineData("aB(def")]
-        public async Task ResetPassword_NoNumber_ReturnsIdentityErrorResponse(string newPassword)
-        {
-            // Arrange
-            await _userManager.CreateAsync(_user, _password1);
-
-            var token = await _userManager.GeneratePasswordResetTokenAsync(_user);
-
-            var expectedErrors = new List<IdentityError>
-            {
-                new IdentityError
-                {
-                    Code = "PasswordRequiresDigit"
-                }
-            };
-
-            // Act
-            var resetPassword = await _sut.ResetPassword(new ResetPasswordRequest
-            {
-                UserName = _username,
-                Token = token,
-                Password = newPassword
-            });
-
-            // Assert
-            Assert.NotNull(resetPassword);
-            Assert.True(resetPassword.IsT1);
-            Assert.Equal(expectedErrors, resetPassword.AsT1.Errors, new IdentityErrorComparer());
-        }
-
-        [Theory]
-        [InlineData("a2345@")]
-        public async Task ResetPassword_NoUpperLetter_ReturnsIdentityErrorResponse(string newPassword)
-        {
-            // Arrange
-            await _userManager.CreateAsync(_user, _password1);
-
-            var token = await _userManager.GeneratePasswordResetTokenAsync(_user);
-
-            var expectedErrors = new List<IdentityError>
-            {
-                new IdentityError
-                {
-                    Code = "PasswordRequiresUpper"
-                }
-            };
-
-            // Act
-            var resetPassword = await _sut.ResetPassword(new ResetPasswordRequest
-            {
-                UserName = _username,
-                Token = token,
-                Password = newPassword
-            });
-
-            // Assert
-            Assert.NotNull(resetPassword);
-            Assert.True(resetPassword.IsT1);
-            Assert.Equal(expectedErrors, resetPassword.AsT1.Errors, new IdentityErrorComparer());
-        }
-
-        [Theory]
-        [InlineData("A2345@")]
-        public async Task ResetPassword_NoLowerLetter_ReturnsIdentityErrorResponse(string newPassword)
-        {
-            // Arrange
-            await _userManager.CreateAsync(_user, _password1);
-
-            var token = await _userManager.GeneratePasswordResetTokenAsync(_user);
-
-            var expectedErrors = new List<IdentityError>
-            {
-                new IdentityError
-                {
-                    Code = "PasswordRequiresLower"
-                }
-            };
-
-            // Act
-            var resetPassword = await _sut.ResetPassword(new ResetPasswordRequest
-            {
-                UserName = _username,
-                Token = token,
-                Password = newPassword
-            });
-
-            // Assert
-            Assert.NotNull(resetPassword);
-            Assert.True(resetPassword.IsT1);
-            Assert.Equal(expectedErrors, resetPassword.AsT1.Errors, new IdentityErrorComparer());
-        }
-
-        [Theory]
-        [InlineData("aB3456")]
-        public async Task ResetPassword_NoSpecialCharacter_ReturnsIdentityErrorResponse(string newPassword)
-        {
-            // Arrange
-            await _userManager.CreateAsync(_user, _password1);
-
-            var token = await _userManager.GeneratePasswordResetTokenAsync(_user);
-
-            var expectedErrors = new List<IdentityError>
-            {
-                new IdentityError
-                {
-                    Code = "PasswordRequiresNonAlphanumeric"
+                    Code = expectedValidationError
                 }
             };
 

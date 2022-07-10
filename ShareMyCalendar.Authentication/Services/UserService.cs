@@ -24,7 +24,7 @@ namespace ShareMyCalendar.Authentication.Services
             var user = new User
             {
                 UserName = registerRequest.UserName,
-                Email = registerRequest.UserName
+                Email = registerRequest.Email
             };
 
             var createResult = await _userManager.CreateAsync(user, registerRequest.Password);

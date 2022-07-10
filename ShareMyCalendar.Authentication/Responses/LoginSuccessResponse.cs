@@ -1,6 +1,4 @@
-﻿using ShareMyCalendar.Authentication.Data;
-
-namespace ShareMyCalendar.Authentication.Responses
+﻿namespace ShareMyCalendar.Authentication.Responses
 {
-    public record LoginSuccessResponse(User User, string AccessToken);
+    public record LoginSuccessResponse(Guid UserId, string UserName, string UserEmail, string AccessToken);
 }
