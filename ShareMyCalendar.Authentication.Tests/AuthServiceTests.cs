@@ -272,10 +272,10 @@ namespace ShareMyCalendar.Authentication.Tests
         public async Task ResetPassword_UserDoesNotExist_ReturnsCorrectResponseType()
         {
             // Act
-            var result = await _sut.ResetPassword(new ResetPasswordRequest
+            var result = await _sut.ChangePassword(new ChangePasswordRequest
             {
                 UserName = _username,
-                Password = _password,
+                CurrentPassword = _password,
                 Token = _passwordResetToken
             });
 
@@ -294,11 +294,11 @@ namespace ShareMyCalendar.Authentication.Tests
                 .ReturnsAsync(IdentityResult.Failed(_errors));
 
             // Act
-            var result = await _sut.ResetPassword(new ResetPasswordRequest
+            var result = await _sut.ChangePassword(new ChangePasswordRequest
             {
                 UserName = _username,
-                Password = _password,
-                Token = _passwordResetToken
+                Token = _passwordResetToken,
+                NewPassword = _password,
             });
 
             // Assert
@@ -317,11 +317,11 @@ namespace ShareMyCalendar.Authentication.Tests
                 .ReturnsAsync(IdentityResult.Success);
 
             // Act
-            var result = await _sut.ResetPassword(new ResetPasswordRequest
+            var result = await _sut.ChangePassword(new ChangePasswordRequest
             {
                 UserName = _username,
-                Password = _password,
-                Token = _passwordResetToken
+                Token = _passwordResetToken,
+                NewPassword= _password,
             });
 
             // Assert

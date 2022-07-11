@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
-using ShareMyCalendar.Authentication.Options;
 using ShareMyCalendar.Authentication.Services;
+using ShareMyCalendar.Authentication.Settings;
 using ShareMyCalendar.Authentication.Tests.Comparers;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -18,13 +18,13 @@ namespace ShareMyCalendar.Authentication.Tests
         private readonly string _key = "super-secret-key-12345678";
         public AccessTokenGeneratorTests()
         {
-            var options = Microsoft.Extensions.Options.Options.Create(new AccessTokenGeneratorOptions
+            var options = new JwtTokenSettings
             {
                 Key = _key,
                 Audience = _audience,
                 Issuer = _issuer,
                 LifespanInDays = 1
-            });
+            };
             _sut = new AccessTokenGenerator(options);
         }
 

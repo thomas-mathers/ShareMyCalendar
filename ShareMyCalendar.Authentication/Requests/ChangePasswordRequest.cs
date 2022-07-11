@@ -5,10 +5,10 @@ namespace ShareMyCalendar.Authentication.Requests
     public record ChangePasswordRequest
     {
         [Required]
-        public string UserName { get; init; }
+        public string UserName { get; init; } = string.Empty;
+        public string CurrentPassword { get; init; } = string.Empty;
+        public string Token { get; init; } = string.Empty;
         [Required]
-        public string CurrentPassword { get; init; }
-        [Required]
-        public string NewPassword { get; init; }
+        public string NewPassword { get; init; } = string.Empty;
     }
 }

@@ -10,7 +10,6 @@ namespace ShareMyCalendar.Authentication.Services
         Task<LoginResponse> Login(LoginRequest loginRequest);
         Task<ChangePasswordResponse> ChangePassword(ChangePasswordRequest changePasswordRequest);
         Task<GeneratePasswordResetTokenResponse> GeneratePasswordResetToken(string username);
-        Task<ResetPasswordResponse> ResetPassword(ResetPasswordRequest resetPasswordRequest);
     }
 
     public class AuthService : IAuthService
@@ -71,14 +70,26 @@ namespace ShareMyCalendar.Authentication.Services
                 return new NotFoundResponse();
             }
 
-            var changePasswordResult = await _userManager.ChangePasswordAsync(
-                user, 
-                changePasswordRequest.CurrentPassword, 
-                changePasswordRequest.NewPassword);
-
-            if (!changePasswordResult.Succeeded)
+            if (!string.IsNullOrEmpty(changePasswordRequest.CurrentPassword))
             {
-                return new IdentityErrorResponse(changePasswordResult.Errors);
+                var changePasswordResult = await _userManager.ChangePasswordAsync(
+                    user,
+                    changePasswordRequest.CurrentPassword,
+                    changePasswordRequest.NewPassword);
+
+                if (!changePasswordResult.Succeeded)
+                {
+                    return new IdentityErrorResponse(changePasswordResult.Errors);
+                }
+
+                return new ChangePasswordSuccessResponse();
+            }
+
+            var resetPasswordResult = await _userManager.ResetPasswordAsync(user, changePasswordRequest.Token, changePasswordRequest.NewPassword);
+
+            if (!resetPasswordResult.Succeeded)
+            {
+                return new IdentityErrorResponse(resetPasswordResult.Errors);
             }
 
             return new ChangePasswordSuccessResponse();
@@ -94,25 +105,6 @@ namespace ShareMyCalendar.Authentication.Services
             }
 
             return await _userManager.GeneratePasswordResetTokenAsync(user);
-        }
-
-        public async Task<ResetPasswordResponse> ResetPassword(ResetPasswordRequest resetPasswordRequest)
-        {
-            var user = await _userManager.FindByNameAsync(resetPasswordRequest.UserName);
-
-            if (user == null)
-            {
-                return new NotFoundResponse();
-            }
-
-            var resetPasswordResult = await _userManager.ResetPasswordAsync(user, resetPasswordRequest.Token, resetPasswordRequest.Password);
-
-            if (!resetPasswordResult.Succeeded)
-            {
-                return new IdentityErrorResponse(resetPasswordResult.Errors);
-            }
-
-            return new ResetPasswordSuccessResponse();
         }
     }
 }

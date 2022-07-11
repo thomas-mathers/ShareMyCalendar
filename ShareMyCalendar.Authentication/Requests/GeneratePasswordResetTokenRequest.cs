@@ -5,6 +5,6 @@ namespace ShareMyCalendar.Authentication.Requests
     public record GeneratePasswordResetTokenRequest
     {
         [Required]
-        public string UserName { get; init; }
+        public string UserName { get; init; } = string.Empty;
     }
 }

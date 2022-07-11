@@ -2,10 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ShareMyCalendar.Authentication.Data;
-using ShareMyCalendar.Authentication.Options;
 using ShareMyCalendar.Authentication.Requests;
 using ShareMyCalendar.Authentication.Services;
+using ShareMyCalendar.Authentication.Settings;
 using ShareMyCalendar.Authentication.Tests.Comparers;
+using ShareMyCalendar.Authentication.Tests.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -26,26 +27,8 @@ namespace ShareMyCalendar.Authentication.Tests
 
         public UserServiceIntegrationTests()
         {
-            var services = new ServiceCollection();
-            services.Configure<AccessTokenGeneratorOptions>(options =>
-            {
-                options.Issuer = "share-my-calendar";
-                options.Audience = "share-my-calendar";
-                options.Key = "share-my-calendar-signing-key-001";
-                options.LifespanInDays = 1;
-            });
-            services.AddDbContext<DatabaseContext>(x => x.UseInMemoryDatabase(Guid.NewGuid().ToString()));
-            services
-                .AddIdentity<User, Role>(options =>
-                {
-                    options.User.RequireUniqueEmail = true;
-                })
-                .AddEntityFrameworkStores<DatabaseContext>()
-                .AddDefaultTokenProviders();
-            services.AddScoped<IAccessTokenGenerator, AccessTokenGenerator>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddLogging();
-            var serviceProvider = services.BuildServiceProvider();
+            var serviceProvider = ShareMyCalendarServiceProvider.Build();
+
             _userManager = serviceProvider.GetRequiredService<UserManager<User>>();
             _sut = serviceProvider.GetRequiredService<IUserService>();
         }

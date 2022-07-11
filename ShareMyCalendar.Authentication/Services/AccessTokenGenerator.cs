@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using ShareMyCalendar.Authentication.Options;
+using ShareMyCalendar.Authentication.Settings;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -14,12 +14,12 @@ namespace ShareMyCalendar.Authentication.Services
 
     public class AccessTokenGenerator : IAccessTokenGenerator
     {
-        private readonly AccessTokenGeneratorOptions _settings;
+        private readonly JwtTokenSettings _settings;
         private readonly SymmetricSecurityKey _key;
 
-        public AccessTokenGenerator(IOptions<AccessTokenGeneratorOptions> settings)
+        public AccessTokenGenerator(JwtTokenSettings settings)
         {
-            _settings = settings.Value;
+            _settings = settings;
             _key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_settings.Key));
         }
 
