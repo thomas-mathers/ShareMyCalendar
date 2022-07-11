@@ -12,12 +12,14 @@ namespace ShareMyCalendar.Authentication.Controllers
         private readonly ILogger<UserController> _logger;
         private readonly IAuthService _authService;
         private readonly IUserService _userService;
+        private readonly IEmailService _emailService;
 
-        public UserController(ILogger<UserController> logger, IAuthService authService, IUserService userService)
+        public UserController(ILogger<UserController> logger, IAuthService authService, IUserService userService, IEmailService emailService)
         {
             _logger = logger;
             _authService = authService;
             _userService = userService;
+            _emailService = emailService;
         }
 
         [HttpPost]
@@ -61,7 +63,12 @@ namespace ShareMyCalendar.Authentication.Controllers
         [HttpPost("password/resets")]
         public async Task<IActionResult> GeneratePasswordResetToken([FromBody] GeneratePasswordResetTokenRequest body)
         {
+            var user = await _userService.GetUserByUserName(body.UserName);
+
             var response = await _authService.GeneratePasswordResetToken(body.UserName);
+
+
+            await _emailService.SendForgotPasswordEmail(user);
 
             return response.Match<IActionResult>(
                 x => StatusCode(404, ApiResponse.Failure(x)),

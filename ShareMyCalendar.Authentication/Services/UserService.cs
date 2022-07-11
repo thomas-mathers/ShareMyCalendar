@@ -7,6 +7,7 @@ namespace ShareMyCalendar.Authentication.Services
 {
     public interface IUserService
     {
+        Task<User> GetUserByUserName(string userName);
         Task<RegisterResponse> Register(RegisterRequest registerRequest);
     }
 
@@ -17,6 +18,11 @@ namespace ShareMyCalendar.Authentication.Services
         public UserService(UserManager<User> userManager)
         {
             _userManager = userManager;
+        }
+
+        public Task<User> GetUserByUserName(string userName)
+        {
+            return _userManager.FindByNameAsync(userName);
         }
 
         public async Task<RegisterResponse> Register(RegisterRequest registerRequest)

@@ -3,6 +3,7 @@
     public class AppSettings
     {
         public string ConnectionString { get; set; }
+        public string SendGridKey { get; set; }
         public JwtTokenSettings Jwt { get; set; }
 
         public static AppSettings FromConfigurationSection(IConfigurationSection section)

@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>f7793a5f-116a-4dbf-b17e-ac92bf7a3c2f</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,7 +20,8 @@
     </PackageReference>
     <PackageReference Include="OneOf" Version="3.0.223" />
     <PackageReference Include="OneOf.SourceGenerator" Version="3.0.223" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="SendGrid" Version="9.28.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using SendGrid;
 using ShareMyCalendar.Authentication.Data;
 using ShareMyCalendar.Authentication.Services;
 using ShareMyCalendar.Authentication.Settings;
@@ -80,6 +81,8 @@ namespace ShareMyCalendar.Authentication.Extensions
             services.AddScoped<IAccessTokenGenerator, AccessTokenGenerator>();
             services.AddScoped(serviceProvider => appSettings);
             services.AddScoped(serviceProvider => appSettings.Jwt);
+            services.AddScoped<ISendGridClient, SendGridClient>(serviceProvider => new SendGridClient(appSettings.SendGridKey));
+            services.AddScoped<IEmailService, EmailService>();
         }
     }
 }
