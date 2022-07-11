@@ -195,29 +195,17 @@ namespace ShareMyCalendar.Authentication.Tests
         }
 
         [Fact]
-        public async Task GenerateResetPasswordToken_UserDoesNotExist_ReturnsNotFoundResponse()
-        {
-            // Act
-            var changePassword = await _sut.GeneratePasswordResetToken(_username);
-
-            // Assert
-            Assert.NotNull(changePassword);
-            Assert.True(changePassword.IsT0);
-        }
-
-        [Fact]
         public async Task GenerateResetPasswordToken_UserExists_ReturnsSuccessResponse()
         {
             // Arrange
             await _userManager.CreateAsync(_user, _password1);
 
             // Act
-            var changePassword = await _sut.GeneratePasswordResetToken(_username);
+            var token = await _sut.GeneratePasswordResetToken(_user);
 
             // Assert
-            Assert.NotNull(changePassword);
-            Assert.True(changePassword.IsT1);
-            Assert.NotEmpty(changePassword.AsT1);
+            Assert.NotNull(token);
+            Assert.NotEmpty(token);
         }
 
         [Fact]

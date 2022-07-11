@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ShareMyCalendar.Authentication.Models;
 using ShareMyCalendar.Authentication.Requests;
 using ShareMyCalendar.Authentication.Responses;
 using ShareMyCalendar.Authentication.Services;
@@ -28,7 +29,7 @@ namespace ShareMyCalendar.Authentication.Controllers
             var response = await _userService.Register(body);
 
             return response.Match<IActionResult>(
-                x => StatusCode(400, ApiResponse.Failure(x)),
+                x => StatusCode(400, ApiResponse.Failure(Constants.Errors.IdentityError)),
                 x => StatusCode(200, ApiResponse.Success(x))
             );
         }
@@ -39,11 +40,11 @@ namespace ShareMyCalendar.Authentication.Controllers
             var response = await _authService.Login(body);
 
             return response.Match<IActionResult>(
-                x => StatusCode(404, ApiResponse.Failure(x)),
-                x => StatusCode(403, ApiResponse.Failure(x)),
-                x => StatusCode(403, ApiResponse.Failure(x)),
-                x => StatusCode(403, ApiResponse.Failure(x)),
-                x => StatusCode(401, ApiResponse.Failure(x)),
+                x => StatusCode(404, ApiResponse.Failure(Constants.Errors.NotFound)),
+                x => StatusCode(403, ApiResponse.Failure(Constants.Errors.UserLockedOut)),
+                x => StatusCode(403, ApiResponse.Failure(Constants.Errors.LoginRequiresTwoFactor)),
+                x => StatusCode(403, ApiResponse.Failure(Constants.Errors.LoginIsNotAllowed)),
+                x => StatusCode(401, ApiResponse.Failure(Constants.Errors.LoginFailed)),
                 x => StatusCode(200, ApiResponse.Success(x))
             );
         }
@@ -54,8 +55,8 @@ namespace ShareMyCalendar.Authentication.Controllers
             var changePasswordResponse = await _authService.ChangePassword(body);
 
             return changePasswordResponse.Match<IActionResult>(
-                x => StatusCode(404, ApiResponse.Failure(x)),
-                x => StatusCode(400, ApiResponse.Failure(x)),
+                x => StatusCode(404, ApiResponse.Failure(Constants.Errors.NotFound)),
+                x => StatusCode(400, ApiResponse.Failure(Constants.Errors.IdentityError)),
                 x => StatusCode(200, ApiResponse.Success(x))
             );
         }
@@ -65,15 +66,16 @@ namespace ShareMyCalendar.Authentication.Controllers
         {
             var user = await _userService.GetUserByUserName(body.UserName);
 
-            var response = await _authService.GeneratePasswordResetToken(body.UserName);
+            if (user == null)
+            {
+                return StatusCode(404, ApiResponse.Failure(Constants.Errors.NotFound));
+            }
 
+            var token = await _authService.GeneratePasswordResetToken(user);
 
-            await _emailService.SendForgotPasswordEmail(user);
+            await _emailService.SendForgotPasswordEmail(user, token);
 
-            return response.Match<IActionResult>(
-                x => StatusCode(404, ApiResponse.Failure(x)),
-                x => StatusCode(200, ApiResponse.Success(x))
-            );
+            return StatusCode(200, ApiResponse.Success());
         }
     }
 }

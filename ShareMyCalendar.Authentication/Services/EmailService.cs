@@ -7,7 +7,7 @@ namespace ShareMyCalendar.Authentication.Services
     public interface IEmailService
     {
         Task SendConfirmEmail(User user);
-        Task SendForgotPasswordEmail(User user);
+        Task SendForgotPasswordEmail(User user, string token);
     }
 
     public class EmailService : IEmailService
@@ -30,7 +30,7 @@ namespace ShareMyCalendar.Authentication.Services
             return _sendGridClient.SendEmailAsync(message);
         }
 
-        public Task SendForgotPasswordEmail(User user)
+        public Task SendForgotPasswordEmail(User user, string token)
         {
             var from = new EmailAddress("thomas.mathers.pro@gmail.com", "Thomas Mathers");
             var to = new EmailAddress(user.Email, user.UserName);

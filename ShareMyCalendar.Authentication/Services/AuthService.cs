@@ -9,7 +9,7 @@ namespace ShareMyCalendar.Authentication.Services
     {
         Task<LoginResponse> Login(LoginRequest loginRequest);
         Task<ChangePasswordResponse> ChangePassword(ChangePasswordRequest changePasswordRequest);
-        Task<GeneratePasswordResetTokenResponse> GeneratePasswordResetToken(string username);
+        Task<string> GeneratePasswordResetToken(User user);
     }
 
     public class AuthService : IAuthService
@@ -95,15 +95,8 @@ namespace ShareMyCalendar.Authentication.Services
             return new ChangePasswordSuccessResponse();
         }
 
-        public async Task<GeneratePasswordResetTokenResponse> GeneratePasswordResetToken(string username)
+        public async Task<string> GeneratePasswordResetToken(User user)
         {
-            var user = await _userManager.FindByNameAsync(username);
-
-            if (user == null)
-            {
-                return new NotFoundResponse();
-            }
-
             return await _userManager.GeneratePasswordResetTokenAsync(user);
         }
     }

@@ -6,13 +6,26 @@
         public object Error { get; set; }
         public object Value { get; set; }
 
-        public static ApiResponse Failure(object x)
+        public static ApiResponse Failure(string errorCode, object x)
         {
             return new ApiResponse
             {
-                ErrorCode = x.GetType().Name,
+                ErrorCode = errorCode,
                 Error = x
             };
+        }
+
+        public static ApiResponse Failure(string errorCode)
+        {
+            return new ApiResponse
+            {
+                ErrorCode = errorCode
+            };
+        }
+
+        public static ApiResponse Success()
+        {
+            return new ApiResponse { };
         }
 
         public static ApiResponse Success(object x)
