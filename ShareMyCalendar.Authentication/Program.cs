@@ -1,13 +1,38 @@
-using ShareMyCalendar.Authentication.Extensions;
-using ShareMyCalendar.Authentication.Settings;
+using FluentValidation.AspNetCore;
+using System.Reflection;
+using System.Text.Json.Serialization;
+using ThomasMathers.Common.IAM.Extensions;
+using ThomasMathers.Common.ResponseWrapping.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var appSettings = AppSettings.FromConfigurationSection(builder.Configuration.GetSection("AppSettings"));
+builder.Services.AddIAM(builder.Configuration);
 
-builder.Services.AddShareMyCalendar(appSettings);
+builder.Services.Configure<RouteOptions>(options =>
+{
+    options.LowercaseUrls = true;
+    options.LowercaseQueryStrings = true;
+});
+
+builder.Services
+    .AddControllers()
+    .AddFluentValidation(options =>
+    {
+        options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+    })
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    });
+
+builder.Services.AddResponseWrapping();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseResponseWrappingExceptionHandler();
 
 if (app.Environment.IsDevelopment())
 {
@@ -17,8 +42,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication();
-app.UseAuthorization();
+app.UseIAM();
 
 app.MapControllers();
 
