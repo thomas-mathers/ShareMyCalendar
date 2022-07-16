@@ -14,7 +14,7 @@
     <PackageReference Include="OneOf" Version="3.0.223" />
     <PackageReference Include="OneOf.SourceGenerator" Version="3.0.223" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.2" />
-    <PackageReference Include="ThomasMathers.Common.IAM" Version="3.3.0" />
+    <PackageReference Include="ThomasMathers.Common.IAM" Version="3.4.3" />
     <PackageReference Include="ThomasMathers.Common.ResponseWrapping" Version="1.0.0" />
   </ItemGroup>
 

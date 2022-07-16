@@ -71,7 +71,7 @@ namespace ShareMyCalendar.Authentication.Controllers
         [HttpPost("{username}/password/resets")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GeneratePasswordResetToken(string username)
+        public async Task<IActionResult> ResetPassword(string username)
         {
             var user = await _userService.GetUserByUserName(username);
 
@@ -80,7 +80,7 @@ namespace ShareMyCalendar.Authentication.Controllers
                 return NotFound();
             }
 
-            var token = await _authService.GeneratePasswordResetToken(user);
+            var token = await _authService.ResetPassword(user);
 
             return Ok(token);
         }
