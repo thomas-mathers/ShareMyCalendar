@@ -5,7 +5,7 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "ShareMyCalendar.Frontend", "ShareMyCalendar.Frontend\ShareMyCalendar.Frontend.esproj", "{AF1DF2DB-2B3E-4871-90A9-746C3CCDBEF8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShareMyCalendar.API", "ShareMyCalendar.Authentication\ShareMyCalendar.API.csproj", "{819995C6-8A0E-4414-BE7A-9E388A30BB6D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShareMyCalendar.API", "ShareMyCalendar.API\ShareMyCalendar.API.csproj", "{920C5783-1B88-4ACC-97BB-2C3BCF2C6F84}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +19,10 @@ Global
 		{AF1DF2DB-2B3E-4871-90A9-746C3CCDBEF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF1DF2DB-2B3E-4871-90A9-746C3CCDBEF8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AF1DF2DB-2B3E-4871-90A9-746C3CCDBEF8}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{819995C6-8A0E-4414-BE7A-9E388A30BB6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{819995C6-8A0E-4414-BE7A-9E388A30BB6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{819995C6-8A0E-4414-BE7A-9E388A30BB6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{819995C6-8A0E-4414-BE7A-9E388A30BB6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{920C5783-1B88-4ACC-97BB-2C3BCF2C6F84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{920C5783-1B88-4ACC-97BB-2C3BCF2C6F84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{920C5783-1B88-4ACC-97BB-2C3BCF2C6F84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{920C5783-1B88-4ACC-97BB-2C3BCF2C6F84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

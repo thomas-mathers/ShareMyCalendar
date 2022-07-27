@@ -1,15 +1,43 @@
+using FluentValidation.AspNetCore;
+using System.Reflection;
+using System.Text.Json.Serialization;
+using ThomasMathers.Common.ResponseWrapping.Extensions;
+using ThomasMathers.Infrastructure.Email.Extensions;
+using ThomasMathers.Infrastructure.IAM.Emails.Extensions;
+using ThomasMathers.Infrastructure.IAM.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddEmailService(builder.Configuration);
+builder.Services.AddIamEmails(builder.Configuration);
+builder.Services.AddIam(builder.Configuration);
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.Configure<RouteOptions>(options =>
+{
+    options.LowercaseUrls = true;
+    options.LowercaseQueryStrings = true;
+});
+
+builder.Services
+    .AddControllers()
+    .AddFluentValidation(options =>
+    {
+        options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+    })
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    });
+
+builder.Services.AddResponseWrapping();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseResponseWrappingExceptionHandler();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -18,7 +46,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.UseIam();
 
 app.MapControllers();
 
