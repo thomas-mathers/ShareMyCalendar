@@ -1,4 +1,4 @@
-﻿namespace ShareMyCalendar.Authentication.Requests
+﻿namespace ShareMyCalendar.API.Requests
 {
     public record RegisterRequest
     {

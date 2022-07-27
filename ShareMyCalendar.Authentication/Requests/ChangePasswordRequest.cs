@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ShareMyCalendar.Authentication.Requests
+namespace ShareMyCalendar.API.Requests
 {
     public record ChangePasswordRequest
     {

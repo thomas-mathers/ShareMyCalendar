@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace ShareMyCalendar.Authentication.Migrations
+namespace ShareMyCalendar.API.Migrations
 {
     public partial class v1 : Migration
     {

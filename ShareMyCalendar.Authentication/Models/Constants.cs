@@ -1,4 +1,4 @@
-﻿namespace ShareMyCalendar.Authentication.Models
+﻿namespace ShareMyCalendar.API.Models
 {
     public static class Constants
     {

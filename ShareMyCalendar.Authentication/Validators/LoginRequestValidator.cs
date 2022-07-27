@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using ShareMyCalendar.Authentication.Requests;
+using ShareMyCalendar.API.Requests;
 
-namespace ShareMyCalendar.Authentication.Validators
+namespace ShareMyCalendar.API.Validators
 {
     public class LoginRequestValidator : AbstractValidator<LoginRequest>
     {

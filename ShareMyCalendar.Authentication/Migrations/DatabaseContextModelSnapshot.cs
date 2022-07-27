@@ -8,7 +8,7 @@ using ThomasMathers.Infrastructure.IAM.Data;
 
 #nullable disable
 
-namespace ShareMyCalendar.Authentication.Migrations
+namespace ShareMyCalendar.API.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
     partial class DatabaseContextModelSnapshot : ModelSnapshot

@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ShareMyCalendar.Authentication.Models;
-using ShareMyCalendar.Authentication.Requests;
+using ShareMyCalendar.API.Models;
+using ShareMyCalendar.API.Requests;
 using ThomasMathers.Infrastructure.IAM.Data;
 using ThomasMathers.Infrastructure.IAM.Services;
 
-namespace ShareMyCalendar.Authentication.Controllers
+namespace ShareMyCalendar.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]

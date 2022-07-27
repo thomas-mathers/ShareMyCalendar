@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using ShareMyCalendar.Authentication.Requests;
+using ShareMyCalendar.API.Requests;
 using ThomasMathers.Infrastructure.IAM.Extensions;
 using ThomasMathers.Infrastructure.IAM.Settings;
 
-namespace ShareMyCalendar.Authentication.Validators
+namespace ShareMyCalendar.API.Validators
 {
     public class ChangePasswordRequestValidator : AbstractValidator<ChangePasswordRequest>
     {
