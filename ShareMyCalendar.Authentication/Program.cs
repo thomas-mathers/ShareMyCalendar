@@ -1,12 +1,16 @@
 using FluentValidation.AspNetCore;
 using System.Reflection;
 using System.Text.Json.Serialization;
-using ThomasMathers.Common.IAM.Extensions;
 using ThomasMathers.Common.ResponseWrapping.Extensions;
+using ThomasMathers.Infrastructure.Email.Extensions;
+using ThomasMathers.Infrastructure.IAM.Emails.Extensions;
+using ThomasMathers.Infrastructure.IAM.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddIAM(builder.Configuration);
+builder.Services.AddEmailService(builder.Configuration);
+builder.Services.AddIamEmails(builder.Configuration);
+builder.Services.AddIam(builder.Configuration);
 
 builder.Services.Configure<RouteOptions>(options =>
 {
@@ -42,7 +46,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseIAM();
+app.UseIam();
 
 app.MapControllers();
 

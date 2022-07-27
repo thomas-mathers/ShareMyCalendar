@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShareMyCalendar.Authentication.Models;
 using ShareMyCalendar.Authentication.Requests;
-using ThomasMathers.Common.IAM.Data;
-using ThomasMathers.Common.IAM.Services;
+using ThomasMathers.Infrastructure.IAM.Data;
+using ThomasMathers.Infrastructure.IAM.Services;
 
 namespace ShareMyCalendar.Authentication.Controllers
 {
@@ -73,16 +73,11 @@ namespace ShareMyCalendar.Authentication.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> ResetPassword(string username)
         {
-            var user = await _userService.GetUserByUserName(username);
+            var resetPasswordResponse = await _authService.ResetPassword(username);
 
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            var token = await _authService.ResetPassword(user);
-
-            return Ok(token);
+            return resetPasswordResponse.Match<IActionResult>(
+                NotFound,
+                Ok);
         }
     }
 }

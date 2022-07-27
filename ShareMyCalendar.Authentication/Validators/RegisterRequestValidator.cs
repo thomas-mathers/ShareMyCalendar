@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using ShareMyCalendar.Authentication.Requests;
-using ThomasMathers.Common.IAM.Extensions;
-using ThomasMathers.Common.IAM.Settings;
+using ThomasMathers.Infrastructure.IAM.Extensions;
+using ThomasMathers.Infrastructure.IAM.Settings;
 
 namespace ShareMyCalendar.Authentication.Validators
 {
