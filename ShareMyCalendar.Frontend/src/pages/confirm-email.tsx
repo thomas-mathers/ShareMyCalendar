@@ -1,10 +1,11 @@
-import Container from '@mui/material/Container';
+import { Button } from '@mui/material';
+import StackPage from './stack-page';
 
 function ConfirmEmail() {
     return (
-        <Container>
-            <p>Confirm Email</p>
-        </Container>
+        <StackPage title="Confirm Email">
+            <Button variant="contained" color="primary">Confirm</Button>
+        </StackPage>
     );
 }
 

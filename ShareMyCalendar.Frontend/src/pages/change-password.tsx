@@ -1,10 +1,14 @@
-import Container from '@mui/material/Container';
+import { Button, TextField } from '@mui/material';
+import StackPage from './stack-page';
 
 function ChangePassword() {
     return (
-        <Container>
-            <p>Change Password</p>
-        </Container>
+        <StackPage title="Change Password">
+            <TextField label="Current Password" />
+            <TextField label="New Password" />
+            <TextField label="Confirm New Password" />
+            <Button variant="contained" color="primary">Ok</Button>
+        </StackPage>
     );
 }
 
