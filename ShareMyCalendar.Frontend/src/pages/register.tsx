@@ -1,43 +1,83 @@
 import { Button } from '@mui/material';
-import useForm from '../hooks/useForm';
+import {
+    email,
+    required,
+    requiresDigit,
+    requiresLower,
+    requiresMinLength,
+    requiresNonAlpha,
+    requiresUpper,
+    FieldType,
+    useForm,
+} from '../forms';
 import StackPage from './stack-page';
 
 function Register() {
-    const { isPristine, values, fields } = useForm({
-        username: {
-            label: 'Username',
-            value: '',
-            validators: [
-                (x) => x ? '' : 'Username is required'
-            ]
+    const { isPristine, values, controls } = useForm({
+        fields: {
+            username: {
+                type: FieldType.Text,
+                label: 'Username',
+                validators: [
+                    required
+                ],
+                textFieldProps: {
+                    required: true
+                }
+            },
+            email: {
+                type: FieldType.Text,
+                label: 'Email',
+                validators: [
+                    required,
+                    email
+                ],
+                textFieldProps: {
+                    required: true,
+                    InputProps: {
+                        type: 'email'
+                    },
+                }
+            },
+            password: {
+                type: FieldType.Text,
+                label: 'Password',
+                validators: [
+                    requiresMinLength(6),
+                    requiresLower,
+                    requiresUpper,
+                    requiresDigit,
+                    requiresNonAlpha,
+                ],
+                textFieldProps: {
+                    required: true,
+                    InputProps: {
+                        type: 'password'
+                    },
+                },
+            },
+            confirmPassword: {
+                type: FieldType.Text,
+                label: 'Confirm Password',
+                validators: [
+                    required,
+                ],
+                textFieldProps: {
+                    required: true,
+                    InputProps: {
+                        type: 'password'
+                    },
+                }
+            },
         },
-        email: {
-            label: 'Email',
-            value: '',
-            validators: [
-                (x) => x ? '' : 'Username is required'
-            ]
-        },
-        password: {
-            label: 'Password',
-            value: '',
-            validators: [
-                (x) => x ? '' : 'Username is required'
-            ]
-        },
-        confirmPassword: {
-            label: 'Confirm Password',
-            value: '',
-            validators: [
-                (x) => x !== values.password ? 'Must match password' : ''
-            ]
-        }
+        constraints: [
+            { op: '==', lparam: 'password', rparam: 'confirmPassword' }
+        ]
     });
-    console.log(values);
 
     return (
         <StackPage title="Register">
-            {fields}
+            {controls}
             <Button disabled={!isPristine} variant="contained" color="primary">Ok</Button>
         </StackPage>
     );
