@@ -21,7 +21,7 @@ function useForm(props: Props) {
             }
         }
         return areConstraintsSatisfied(fields, constraints);
-    }, [fields]);
+    }, [fields, constraints]);
 
     const handleFormFieldChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         dispatch({
