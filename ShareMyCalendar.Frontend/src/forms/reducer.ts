@@ -1,44 +1,6 @@
 ﻿import { Action, ActionType } from "./actions";
 import { State } from "./state";
-import { Field } from "./fields";
-import BinaryConstraint from "./binary-constraint";
-
-function validate(field: Field) {
-    field.errorMessages = [];
-
-    for (let i = 0; i < field.validators.length; i++) {
-        const errorMessage = field.validators[i](field);
-
-        if (errorMessage) {
-            field.errorMessages.push(errorMessage);
-        }
-    }
-}
-
-function isValid(field: Field) {
-    for (let i = 0; i < field.validators.length; i++) {
-        const errorMessage = field.validators[i](field);
-
-        if (errorMessage) {
-            return false;
-        }
-    }
-    return true;
-}
-
-function areConstraintsSatisfied(fields: Record<string, Field>, constraints: BinaryConstraint[]) {
-    for (const constraint of constraints) {
-        const lparam = fields[constraint.lparam];
-        const rparam = fields[constraint.rparam]; 
-        switch (constraint.op) {
-            case '==':
-                if (lparam.value !== rparam.value) {
-                    return false;
-                }
-        }
-    }
-    return true;
-}
+import { validate } from "./fields";
 
 function reducer(state: State, action: Action): State {
     const { fields: currentFields, constraints } = state;
@@ -85,4 +47,4 @@ function reducer(state: State, action: Action): State {
     }
 }
 
-export { isValid, areConstraintsSatisfied, reducer }
+export default reducer;

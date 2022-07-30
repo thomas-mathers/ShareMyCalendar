@@ -1,10 +1,11 @@
-import { TextField } from '@mui/material';
 import { useCallback, useMemo, useReducer } from 'react';
-import { FieldType } from './fields';
-import initializeStateFromProps from './initialize-state-from-props';
-import { isValid, areConstraintsSatisfied, reducer } from './reducer';
-import Props from './props';
+import { TextField } from '@mui/material';
 import { ActionType } from './actions';
+import { areConstraintsSatisfied } from './binary-constraint';
+import { FieldType, isValid } from './fields';
+import initializeStateFromProps from './initialize-state-from-props';
+import Props from './props';
+import reducer from './reducer';
 
 function useForm(props: Props) {
     const [state, dispatch] = useReducer(reducer, props, initializeStateFromProps);

@@ -33,5 +33,28 @@ interface SelectFormField {
 
 type Field = TextFormField | CheckboxFormField | SelectFormField;
 
-export { FieldType };
+function isValid(field: Field) {
+    for (let i = 0; i < field.validators.length; i++) {
+        const errorMessage = field.validators[i](field);
+
+        if (errorMessage) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function validate(field: Field) {
+    field.errorMessages = [];
+
+    for (let i = 0; i < field.validators.length; i++) {
+        const errorMessage = field.validators[i](field);
+
+        if (errorMessage) {
+            field.errorMessages.push(errorMessage);
+        }
+    }
+}
+
+export { FieldType, isValid, validate };
 export type { Field }
