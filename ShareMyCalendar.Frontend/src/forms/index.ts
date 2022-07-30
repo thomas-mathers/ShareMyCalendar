@@ -5,5 +5,5 @@ export { default as requiresNonAlpha } from './validators/requires-non-alpha';
 export { default as requiresUpper } from './validators/requires-upper';
 export { default as email } from './validators/email';
 export { default as required } from './validators/required';
-export { default as useForm } from './useForm';
+export { default as useForm } from './use-form';
 export { FieldType } from './fields';
