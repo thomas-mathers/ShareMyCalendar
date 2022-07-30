@@ -8,6 +8,8 @@ using ThomasMathers.Infrastructure.IAM.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors();
+
 builder.Services.AddEmailService(builder.Configuration);
 builder.Services.AddIamEmails(builder.Configuration);
 builder.Services.AddIam(builder.Configuration);
@@ -35,6 +37,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseCors(x =>
+{
+    x.AllowAnyMethod();
+    x.AllowAnyHeader();
+    x.SetIsOriginAllowed(origin => true); 
+    x.AllowCredentials();
+});
 
 app.UseResponseWrappingExceptionHandler();
 

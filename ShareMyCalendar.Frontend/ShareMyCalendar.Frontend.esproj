@@ -8,6 +8,6 @@
     <JavaScriptTestFramework>Jest</JavaScriptTestFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="src\hooks\use-fetch\" />
+    <Folder Include="src\hooks\use-fetch\tests\" />
   </ItemGroup>
 </Project>

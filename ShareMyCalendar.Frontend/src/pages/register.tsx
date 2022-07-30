@@ -1,4 +1,5 @@
-import { Button } from '@mui/material';
+import { useCallback } from 'react';
+import { Button, CircularProgress } from '@mui/material';
 import {
     email,
     required,
@@ -10,6 +11,7 @@ import {
     FieldType,
     useForm,
 } from '../forms';
+import useFetch from '../hooks/use-fetch/use-fetch';
 import StackPage from './stack-page';
 
 function Register() {
@@ -74,11 +76,23 @@ function Register() {
             { op: '==', lparam: 'password', rparam: 'confirmPassword' }
         ]
     });
-
+    const { loading, execute } = useFetch({
+        url: 'https://localhost:7040/user',
+        options: {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(values)
+        },
+    });
+    const handleClick = useCallback(() => execute(), [execute]);
+    const visibility = loading ? 'visible' : 'hidden';
     return (
         <StackPage title="Register">
             {controls}
-            <Button disabled={!isPristine} variant="contained" color="primary">Ok</Button>
+            <CircularProgress style={{ visibility }} />
+            <Button disabled={!isPristine} variant="contained" color="primary" onClick={handleClick}>Ok</Button>
         </StackPage>
     );
 }
