@@ -14,7 +14,7 @@ import {
     useForm,
 } from '../forms';
 import { ApiValidationError, RegisterSuccessResponse } from '../responses';
-import useFetch from '../hooks/use-fetch/use-fetch';
+import useFetch from '../hooks/use-fetch';
 import StackPage from './stack-page';
 
 function Register() {

@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import ApiResult from "../../responses/api-result";
+import ApiResult from "../responses/api-result";
 
 interface Props {
     url: string;

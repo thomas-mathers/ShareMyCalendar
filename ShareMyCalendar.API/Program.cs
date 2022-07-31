@@ -5,14 +5,20 @@ using ThomasMathers.Infrastructure.ResponseWrapping.Extensions;
 using ThomasMathers.Infrastructure.Email.Extensions;
 using ThomasMathers.Infrastructure.IAM.Emails.Extensions;
 using ThomasMathers.Infrastructure.IAM.Extensions;
+using ShareMyCalendar.API;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var configuration = builder.Configuration;
+
 builder.Services.AddCors();
 
-builder.Services.AddEmailService(builder.Configuration);
-builder.Services.AddIamEmails(builder.Configuration);
-builder.Services.AddIam(builder.Configuration);
+builder.Services.AddEmailService(configuration);
+builder.Services.AddIamEmails(configuration);
+builder.Services.AddIam(configuration);
+
+builder.Services.AddScoped<IDatabaseSeeder, DatabaseSeeder>();
 
 builder.Services.Configure<RouteOptions>(options =>
 {
@@ -34,15 +40,52 @@ builder.Services
 builder.Services.AddResponseWrapping();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(option =>
+{
+    option.SwaggerDoc("v1", new OpenApiInfo { Title = "ShareMyCalendar API", Version = "v1" });
+    option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter a valid token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+    option.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[]{}
+        }
+    });
+});
 
 var app = builder.Build();
+
+if (bool.TryParse(configuration["SeedDatabase"], out var seedDatabase) && seedDatabase)
+{
+    var serviceScopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
+
+    using (var scope = serviceScopeFactory.CreateScope())
+    {
+        var seeder = scope.ServiceProvider.GetRequiredService<IDatabaseSeeder>();
+        seeder.Seed().Wait();
+    }
+}
 
 app.UseCors(x =>
 {
     x.AllowAnyMethod();
     x.AllowAnyHeader();
-    x.SetIsOriginAllowed(origin => true); 
+    x.SetIsOriginAllowed(origin => true);
     x.AllowCredentials();
 });
 

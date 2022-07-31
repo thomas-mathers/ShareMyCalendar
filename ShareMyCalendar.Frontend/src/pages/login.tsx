@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Button, LinearProgress } from '@mui/material';
 import ErrorMessage from '../components/error-message';
 import { FieldType, required, useForm } from '../forms';
-import useFetch from '../hooks/use-fetch/use-fetch';
+import useFetch from '../hooks/use-fetch';
 import { ApiValidationError, LoginSuccessResponse } from '../responses';
 import StackPage from './stack-page';
 
