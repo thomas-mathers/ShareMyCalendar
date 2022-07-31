@@ -1,5 +1,7 @@
-import { useCallback } from 'react';
-import { Button, CircularProgress } from '@mui/material';
+import { useCallback, useMemo } from 'react';
+import { useNavigate } from "react-router-dom";
+import { Box, Button, LinearProgress } from '@mui/material';
+import ErrorMessage from '../components/error-message';
 import {
     email,
     required,
@@ -11,6 +13,7 @@ import {
     FieldType,
     useForm,
 } from '../forms';
+import { ApiValidationError, RegisterSuccessResponse } from '../responses';
 import useFetch from '../hooks/use-fetch/use-fetch';
 import StackPage from './stack-page';
 
@@ -76,7 +79,8 @@ function Register() {
             { op: '==', lparam: 'password', rparam: 'confirmPassword' }
         ]
     });
-    const { loading, execute } = useFetch({
+
+    const { fetching, response, execute } = useFetch<ApiValidationError[], RegisterSuccessResponse>({
         url: 'https://localhost:7040/user',
         options: {
             method: 'POST',
@@ -86,12 +90,30 @@ function Register() {
             body: JSON.stringify(values)
         },
     });
-    const handleClick = useCallback(() => execute(), [execute]);
-    const visibility = loading ? 'visible' : 'hidden';
+
+    const navigate = useNavigate();
+
+    const errors = useMemo(() => {
+        if (response?.error) {
+            return response.error.map(e => e.description);
+        }
+        return [];
+    }, [response?.error]);
+
+    const handleClick = useCallback(async () => {
+        const response = await execute();
+        if (response.value?.id) {
+            navigate('/');
+        }
+    }, [execute]);
+
     return (
         <StackPage title="Register">
             {controls}
-            <CircularProgress style={{ visibility }} />
+            {fetching && <LinearProgress />}
+            <Box>
+                {errors.length > 0 && errors.map((e, i) => <ErrorMessage key={i} text={e}/>)}
+            </Box>
             <Button disabled={!isPristine} variant="contained" color="primary" onClick={handleClick}>Ok</Button>
         </StackPage>
     );

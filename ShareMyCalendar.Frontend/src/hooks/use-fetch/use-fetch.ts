@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import ApiResult from "../../models/api-result";
+import ApiResult from "../../responses/api-result";
 
 interface Props {
     url: string;
@@ -7,32 +7,27 @@ interface Props {
     executeAutomatically?: boolean;
 }
 
-function useFetch<T>(props: Props) {
+function useFetch<TError, TValue>(props: Props) {
     const { url, options, executeAutomatically } = props;
-    const [loading, setLoading] = useState<boolean>();
-    const [errorCode, setErrorCode] = useState<string>();
-    const [errorMessage, setErrorMessage] = useState<string>();
-    const [value, setValue] = useState<T>();
+    const [fetching, setFetching] = useState<boolean>();
+    const [response, setResponse] = useState<ApiResult<TError, TValue>>();
     const execute = useCallback(async () => {
         try {
-            setLoading(true);
+            setFetching(true);
+            setResponse(undefined);
             const response = await fetch(url, options);
             const json = await response.json();
-            const responseBody: ApiResult<T> = json;
-            setErrorCode(responseBody.errorCode);
-            setErrorMessage(responseBody.errorMessage);
-            setValue(responseBody.value);
-        } catch (e) {
-            setErrorMessage('An error has occured contacting an external service. Please try again');
-            throw e;
+            const responseBody: ApiResult<TError, TValue> = json;
+            setResponse(responseBody);
+            return responseBody;
         } finally {
-            setLoading(false);
+            setFetching(false);
         }
     }, [url, options]);        
     if (executeAutomatically) {
         execute();
     }
-    return { loading, errorCode, errorMessage, value, execute };
+    return { fetching, response, execute };
 }
 
 export default useFetch;

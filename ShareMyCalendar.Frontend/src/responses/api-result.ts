@@ -1,8 +1,9 @@
-interface ApiResult<T> {
+interface ApiResult<TError, TValue> {
   requestId: string;
   errorCode: string;
   errorMessage: string;
-  value: T;
+  error: TError;
+  value: TValue;
 }
 
 export default ApiResult;

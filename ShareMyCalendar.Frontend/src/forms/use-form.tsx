@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useReducer } from 'react';
 import { TextField } from '@mui/material';
+import ErrorMessage from '../components/error-message';
 import { ActionType } from './actions';
 import { areConstraintsSatisfied } from './binary-constraint';
 import { FieldType, isValid } from './fields';
@@ -51,7 +52,7 @@ function useForm(props: Props) {
                         onChange={handleFormFieldChange}
                         onBlur={handleFormFieldBlur}
                         error={field.errorMessages.length > 0}
-                        helperText={field.errorMessages.map((msg, i) => <span key={i} style={{ display: 'block' }}>{msg}</span>)}
+                        helperText={field.errorMessages.map((msg, i) => <ErrorMessage key={i} text={msg}/>)}
                     />
                 ) 
             default:

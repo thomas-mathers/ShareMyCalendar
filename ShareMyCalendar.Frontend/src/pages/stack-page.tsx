@@ -9,7 +9,7 @@ function StackPage(props: PropsWithChildren<Props>) {
     const { title, children } = props;
     return (
         <Container maxWidth="xs">
-            <Stack spacing={2}>
+            <Stack spacing={4}>
                 <Typography variant="h4" component="h1">{title}</Typography>
                 {children}
             </Stack>

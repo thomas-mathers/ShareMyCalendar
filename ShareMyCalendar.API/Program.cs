@@ -1,7 +1,7 @@
 using FluentValidation.AspNetCore;
 using System.Reflection;
 using System.Text.Json.Serialization;
-using ThomasMathers.Common.ResponseWrapping.Extensions;
+using ThomasMathers.Infrastructure.ResponseWrapping.Extensions;
 using ThomasMathers.Infrastructure.Email.Extensions;
 using ThomasMathers.Infrastructure.IAM.Emails.Extensions;
 using ThomasMathers.Infrastructure.IAM.Extensions;
