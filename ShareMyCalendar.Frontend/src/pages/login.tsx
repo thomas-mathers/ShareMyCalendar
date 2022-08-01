@@ -1,6 +1,6 @@
 import { useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, LinearProgress } from '@mui/material';
+import { Box, Button, Checkbox, Divider, FormControlLabel, FormGroup, LinearProgress, Link } from '@mui/material';
 import ErrorMessage from '../components/error-message';
 import { FieldType, required, useForm } from '../forms';
 import useFetch from '../hooks/use-fetch';
@@ -67,11 +67,18 @@ function Login() {
     return (
         <StackPage title="Login">
             {controls}
+            <FormGroup>
+                <FormControlLabel control={<Checkbox defaultChecked />} label="Remember me?" />
+            </FormGroup>
             {fetching && <LinearProgress />}
             <Box>
                 {errors.length > 0 && errors.map((e, i) => <ErrorMessage key={i} text={e} />)}
             </Box>
-            <Button variant="contained" color="primary" disabled={!isPristine} onClick={handleClick}>Ok</Button>
+            <Button variant="contained" color="primary" disabled={!isPristine} onClick={handleClick}>Login</Button>
+            <Link href="#">Forgot password</Link>
+            <Divider>OR</Divider>
+            <p>Need an account?</p>
+            <Link href="register">Sign Up</Link>
         </StackPage>
     );
 }

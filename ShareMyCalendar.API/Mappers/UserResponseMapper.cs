@@ -12,6 +12,9 @@ namespace ShareMyCalendar.API.Mappers
                 Id = user.Id,
                 UserName = user.UserName,
                 Email = user.Email,
+                EmailConfirmed = user.EmailConfirmed,
+                PhoneNumber = user.PhoneNumber,
+                PhoneNumberConfirmed = user.PhoneNumberConfirmed,
             };
         }
     }

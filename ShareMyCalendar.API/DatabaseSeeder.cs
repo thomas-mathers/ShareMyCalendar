@@ -16,7 +16,8 @@ namespace ShareMyCalendar.API
             UserName = "admin",
             NormalizedUserName = "ADMIN",
             Email = "admin@sharemycalendar.ca",
-            NormalizedEmail = "ADMIN@SHAREMYCALENDAR.CA"
+            NormalizedEmail = "ADMIN@SHAREMYCALENDAR.CA",
+            EmailConfirmed = true,
         };
 
         private readonly UserManager<User> _userManager;
