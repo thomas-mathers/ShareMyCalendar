@@ -14,6 +14,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="ThomasMathers.Infrastructure.IAM" Version="1.3.0" />
     <PackageReference Include="ThomasMathers.Infrastructure.IAM.Emails" Version="1.0.5" />
     <PackageReference Include="ThomasMathers.Infrastructure.ResponseWrapping" Version="1.1.0" />
   </ItemGroup>

@@ -32,10 +32,11 @@ namespace ShareMyCalendar.API.Controllers
         public async Task<IActionResult> Register([FromBody] RegisterRequest body)
         {
             var user = new User { UserName = body.UserName, Email = body.Email };
-            var response = await _userService.Register(user, body.Password);
+            var response = await _userService.Register(user, Roles.User.Name, body.Password);
 
             return response.Match<IActionResult>(
                 x => BadRequest(x.Errors), 
+                NotFound,
                 x => Created($"user/{x.User.Id}", RegisterSuccessResponseMapper.Map(x))
             );
         }
