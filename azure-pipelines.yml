@@ -1,0 +1,8 @@
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'Free Trial(f48b943d-3bc9-4d57-a5a2-d4b0a11b7cb7)'
+    appType: 'webAppLinux'
+    appName: 'share-my-calendar'
+    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    runtimeStack: 'NODE|16-lts'
+    startUpCommand: 'npm run start'
