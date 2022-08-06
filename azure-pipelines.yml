@@ -20,11 +20,11 @@ steps:
   inputs:
     command: 'custom'
     workingDir: 'ShareMyCalendar.Frontend'
-    customCommand: 'build'
+    customCommand: 'run build'
 - task: Npm@1
   displayName: 'npm test'
   inputs:
     command: 'custom'
     workingDir: 'ShareMyCalendar.Frontend'
-    customCommand: 'test -- --watchAll=false'
+    customCommand: 'run test:ci'
   
