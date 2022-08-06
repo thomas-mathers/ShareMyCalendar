@@ -16,15 +16,15 @@ steps:
     command: 'install'
     workingDir: 'ShareMyCalendar.Frontend'
 - task: Npm@1
-  displayName: 'npm build'
-  inputs:
-    command: 'custom'
-    workingDir: 'ShareMyCalendar.Frontend'
-    customCommand: 'run build'
-- task: Npm@1
   displayName: 'npm test'
   inputs:
     command: 'custom'
     workingDir: 'ShareMyCalendar.Frontend'
     customCommand: 'run test:ci'
+- task: Npm@1
+  displayName: 'npm build'
+  inputs:
+    command: 'custom'
+    workingDir: 'ShareMyCalendar.Frontend'
+    customCommand: 'run build'
   
