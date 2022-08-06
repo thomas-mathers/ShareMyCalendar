@@ -2,7 +2,7 @@ import BinaryConstraint, { areConstraintsSatisfied } from "../binary-constraint"
 import { Field, FieldType } from "../fields";
 
 it.each([
-    ['a', 'a', false],
+    ['a', 'a', true],
     ['thomas mathers', 'thomas mathers', true],
     ['a', 'b', false],
     ['thomas mathers', 'thomas smith', false]
