@@ -1,8 +1,30 @@
-- task: AzureWebApp@1
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: Npm@1
+  displayName: 'npm install'
   inputs:
-    azureSubscription: 'Free Trial(f48b943d-3bc9-4d57-a5a2-d4b0a11b7cb7)'
-    appType: 'webAppLinux'
-    appName: 'share-my-calendar'
-    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
-    runtimeStack: 'NODE|16-lts'
-    startUpCommand: 'npm run start'
+    command: 'install'
+    workingDir: 'ShareMyCalendar.Frontend'
+- task: Npm@1
+  displayName: 'npm build'
+  inputs:
+    command: 'custom'
+    workingDir: 'ShareMyCalendar.Frontend'
+    customCommand: 'build'
+- task: Npm@1
+  displayName: 'npm test'
+  inputs:
+    command: 'custom'
+    workingDir: 'ShareMyCalendar.Frontend'
+    customCommand: 'test -- --watchAll=false'
+  
