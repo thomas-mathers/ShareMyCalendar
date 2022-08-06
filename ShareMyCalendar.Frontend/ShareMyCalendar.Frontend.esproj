@@ -8,6 +8,9 @@
     <JavaScriptTestFramework>Jest</JavaScriptTestFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="src\hooks\tests\" />
+    <TypeScriptConfiguration Remove="src\hooks\tests\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="src\hooks\tests\**" />
   </ItemGroup>
 </Project>

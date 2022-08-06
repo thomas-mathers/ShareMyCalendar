@@ -1,11 +1,29 @@
 import { useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Checkbox, Divider, FormControlLabel, FormGroup, LinearProgress, Link } from '@mui/material';
-import ErrorMessage from '../components/error-message';
+import {
+    Box,
+    Button,
+    Checkbox,
+    Divider,
+    FormControlLabel,
+    FormGroup,
+    LinearProgress,
+    Link,
+    Stack
+} from '@mui/material';
+import ErrorList from '../components/error-list';
 import { FieldType, required, useForm } from '../forms';
 import useFetch from '../hooks/use-fetch';
 import { ApiValidationError, LoginSuccessResponse } from '../responses';
 import StackPage from './stack-page';
+import {
+    LoginSocialFacebook,
+    LoginSocialInstagram,
+    LoginSocialTwitter,
+    LoginSocialGoogle,
+    LoginSocialMicrosoft,
+    IResolveParams,
+} from 'reactjs-social-login'
 
 function Login() {
     const { controls, values, isPristine } = useForm({
@@ -62,23 +80,40 @@ function Login() {
         if (response.value) {
             navigate('/dashboard');
         }
-    }, [execute]);
+    }, [execute, navigate]);
+
+    const onLoginStart = useCallback(() => {
+        alert('login start')
+    }, [])
 
     return (
         <StackPage title="Login">
-            {controls}
-            <FormGroup>
-                <FormControlLabel control={<Checkbox defaultChecked />} label="Remember me?" />
-            </FormGroup>
-            {fetching && <LinearProgress />}
-            <Box>
-                {errors.length > 0 && errors.map((e, i) => <ErrorMessage key={i} text={e} />)}
-            </Box>
-            <Button variant="contained" color="primary" disabled={!isPristine} onClick={handleClick}>Login</Button>
-            <Link href="#">Forgot password</Link>
+            <LoginSocialFacebook
+                appId={process.env.REACT_APP_FB_APP_ID || ''}
+                onLoginStart={onLoginStart}
+                onResolve={(resolveParams: IResolveParams) => {
+                    console.log(resolveParams);
+                }}
+                onReject={(err) => {
+                    console.log(err)
+                }}
+            >
+                <Button>Facebook Login</Button>
+            </LoginSocialFacebook>
             <Divider>OR</Divider>
-            <p>Need an account?</p>
-            <Link href="register">Sign Up</Link>
+            {controls}
+            <Stack direction="row" alignItems="center" justifyContent="space-between">
+                <FormGroup>
+                    <FormControlLabel control={<Checkbox defaultChecked />} label="Remember me?" />
+                </FormGroup>
+                <Link href="#">Forgot password?</Link>
+            </Stack>
+            {fetching && <LinearProgress />}
+            {errors.length > 0 && <ErrorList errors={errors} />}
+            <Button variant="contained" color="primary" disabled={!isPristine} onClick={handleClick}>Login</Button>
+            <Box textAlign="center">
+                Need an account? <Link href="register">Sign Up</Link>
+            </Box>
         </StackPage>
     );
 }

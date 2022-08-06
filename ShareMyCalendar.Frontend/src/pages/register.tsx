@@ -1,7 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { useNavigate } from "react-router-dom";
-import { Box, Button, LinearProgress } from '@mui/material';
-import ErrorMessage from '../components/error-message';
+import { Button, LinearProgress } from '@mui/material';
 import {
     email,
     required,
@@ -16,6 +15,7 @@ import {
 import { ApiValidationError, RegisterSuccessResponse } from '../responses';
 import useFetch from '../hooks/use-fetch';
 import StackPage from './stack-page';
+import ErrorList from '../components/error-list';
 
 function Register() {
     const { isPristine, values, controls } = useForm({
@@ -105,15 +105,13 @@ function Register() {
         if (response.value?.id) {
             navigate('/');
         }
-    }, [execute]);
+    }, [execute, navigate]);
 
     return (
         <StackPage title="Register">
             {controls}
             {fetching && <LinearProgress />}
-            <Box>
-                {errors.length > 0 && errors.map((e, i) => <ErrorMessage key={i} text={e}/>)}
-            </Box>
+            {errors.length > 0 && <ErrorList errors={errors} />}
             <Button disabled={!isPristine} variant="contained" color="primary" onClick={handleClick}>Ok</Button>
         </StackPage>
     );
