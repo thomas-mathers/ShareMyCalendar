@@ -27,14 +27,15 @@ steps:
     command: 'custom'
     workingDir: 'ShareMyCalendar.Frontend'
     customCommand: 'run build'
-- task: CopyFiles@2
+- task: ArchiveFiles@2
   inputs:
-    SourceFolder: 'ShareMyCalendar.Frontend/build'
-    contents: '**'
-    targetFolder: $(Build.ArtifactStagingDirectory)
+    rootFolderOrFile: 'ShareMyCalendar.Frontend/build'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
+    ArtifactName: '$(Build.BuildId)'
     publishLocation: 'Container'
-    StoreAsTar: true
