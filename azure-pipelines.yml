@@ -29,7 +29,8 @@ steps:
     customCommand: 'run build'
 - task: CopyFiles@2
   inputs:
-    contents: 'ShareMyCalendar.Frontend/build/**'
+    SourceFolder: 'ShareMyCalendar.Frontend/build'
+    contents: '**'
     targetFolder: $(Build.ArtifactStagingDirectory)
 - task: PublishBuildArtifacts@1
   inputs:
