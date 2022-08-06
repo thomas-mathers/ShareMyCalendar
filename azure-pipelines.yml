@@ -4,7 +4,7 @@
 # https://aka.ms/yaml
 
 trigger:
-- master
+- main
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -27,4 +27,15 @@ steps:
     command: 'custom'
     workingDir: 'ShareMyCalendar.Frontend'
     customCommand: 'run build'
-  
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: 'ShareMyCalendar.Frontend/build'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: '$(Build.BuildId)'
+    publishLocation: 'Container'
