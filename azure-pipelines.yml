@@ -21,6 +21,13 @@ steps:
     command: 'custom'
     workingDir: 'ShareMyCalendar.Frontend'
     customCommand: 'run test:ci'
+- task: PublishTestResults@2
+  displayName: 'Publish test results'
+  condition: succeededOrFailed() # because otherwise we won't know what tests failed
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/junit.xml'
+    failTaskOnFailedTests: true
 - task: Npm@1
   displayName: 'npm build'
   inputs:
@@ -28,6 +35,7 @@ steps:
     workingDir: 'ShareMyCalendar.Frontend'
     customCommand: 'run build'
 - task: ArchiveFiles@2
+  displayName: 'Archive build'
   inputs:
     rootFolderOrFile: 'ShareMyCalendar.Frontend/build'
     includeRootFolder: false
@@ -35,6 +43,7 @@ steps:
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
     replaceExistingArchive: true
 - task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact'
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: '$(Build.BuildId)'
