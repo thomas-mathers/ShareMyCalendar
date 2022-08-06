@@ -28,7 +28,7 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
-        "test:ci": "npm run test -- --watchAll=false",
+        "test:ci": "npm run test -- --watchAll=false --reporters=default --reporters=jest-junit",
         "eject": "react-scripts eject"
     },
     "eslintConfig": {
@@ -36,6 +36,11 @@
             "react-app",
             "react-app/jest"
         ]
+    },
+    "jest-junit": {
+        "suiteNameTemplate": "{filepath}",
+        "outputDirectory": ".",
+        "outputName": "junit.xml"
     },
     "browserslist": {
         "production": [
