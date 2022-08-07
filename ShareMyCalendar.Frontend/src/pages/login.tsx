@@ -7,7 +7,6 @@ import {
     Divider,
     FormControlLabel,
     FormGroup,
-    IconButton,
     LinearProgress,
     Link,
     Stack
@@ -19,8 +18,6 @@ import { ApiValidationError, LoginSuccessResponse } from '../responses';
 import StackPage from './stack-page';
 import {
     LoginSocialFacebook,
-    LoginSocialInstagram,
-    LoginSocialTwitter,
     LoginSocialGoogle,
     LoginSocialMicrosoft,
     IResolveParams,
@@ -85,10 +82,11 @@ function Login() {
     }, [execute, navigate]);
 
     const handleLoginStart = useCallback(() => {
+
     }, []);
 
     const handleLoginResolve = useCallback((resolveParams: IResolveParams) => {
-
+        console.log(resolveParams);
     }, []);
 
     const handleLoginReject = useCallback(() => {
@@ -114,19 +112,9 @@ function Login() {
                 >
                     <GoogleLoginButton style={{ fontSize: '1rem' }} />
                 </LoginSocialGoogle>
-                <LoginSocialTwitter
-                    client_id={process.env.REACT_APP_TWITTER_CLIENT_ID || ''}
-                    client_secret=""
-                    redirect_uri={process.env.REACT_APP_TWITTER_REDIRECT_URI || ''}
-                    onLoginStart={handleLoginStart}
-                    onResolve={handleLoginResolve}
-                    onReject={handleLoginReject}
-                >
-                    <TwitterLoginButton style={{ fontSize: '1rem' }} />
-                </LoginSocialTwitter>
                 <LoginSocialMicrosoft
                     client_id={process.env.REACT_APP_MICROSOFT_CLIENT_ID || ''}
-                    redirect_uri={process.env.REACT_APP_MICROSOFT_REDIRECT_URI || ''}
+                    redirect_uri={process.env.REACT_APP_BASE_URL || ''}
                     onLoginStart={handleLoginStart}
                     onResolve={handleLoginResolve}
                     onReject={handleLoginReject}
