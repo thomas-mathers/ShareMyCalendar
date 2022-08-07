@@ -83,7 +83,6 @@ function Login() {
     }, [execute, navigate]);
 
     const onLoginStart = useCallback(() => {
-        alert('login start')
     }, [])
 
     return (
