@@ -7,6 +7,7 @@ import {
     Divider,
     FormControlLabel,
     FormGroup,
+    IconButton,
     LinearProgress,
     Link,
     Stack
@@ -23,7 +24,8 @@ import {
     LoginSocialGoogle,
     LoginSocialMicrosoft,
     IResolveParams,
-} from 'reactjs-social-login'
+} from 'reactjs-social-login';
+import { FacebookLoginButton, GoogleLoginButton, MicrosoftLoginButton, TwitterLoginButton } from "react-social-login-buttons";
 
 function Login() {
     const { controls, values, isPristine } = useForm({
@@ -82,31 +84,64 @@ function Login() {
         }
     }, [execute, navigate]);
 
-    const onLoginStart = useCallback(() => {
-    }, [])
+    const handleLoginStart = useCallback(() => {
+    }, []);
+
+    const handleLoginResolve = useCallback((resolveParams: IResolveParams) => {
+
+    }, []);
+
+    const handleLoginReject = useCallback(() => {
+
+    }, []);
 
     return (
         <StackPage title="Login">
-            <LoginSocialFacebook
-                appId={process.env.REACT_APP_FB_APP_ID || ''}
-                onLoginStart={onLoginStart}
-                onResolve={(resolveParams: IResolveParams) => {
-                    console.log(resolveParams);
-                }}
-                onReject={(err) => {
-                    console.log(err)
-                }}
-            >
-                <Button>Facebook Login</Button>
-            </LoginSocialFacebook>
+            <Stack>
+                <LoginSocialFacebook
+                    appId={process.env.REACT_APP_FB_APP_ID || ''}
+                    onLoginStart={handleLoginStart}
+                    onResolve={handleLoginResolve}
+                    onReject={handleLoginReject}
+                >
+                    <FacebookLoginButton style={{ fontSize: '1rem' }} />
+                </LoginSocialFacebook>
+                <LoginSocialGoogle
+                    client_id={process.env.REACT_APP_GOOGLE_CLIENT_ID || ''}
+                    onLoginStart={handleLoginStart}
+                    onResolve={handleLoginResolve}
+                    onReject={handleLoginReject}
+                >
+                    <GoogleLoginButton style={{ fontSize: '1rem' }} />
+                </LoginSocialGoogle>
+                <LoginSocialTwitter
+                    client_id={process.env.REACT_APP_TWITTER_CLIENT_ID || ''}
+                    client_secret=""
+                    redirect_uri={process.env.REACT_APP_TWITTER_REDIRECT_URI || ''}
+                    onLoginStart={handleLoginStart}
+                    onResolve={handleLoginResolve}
+                    onReject={handleLoginReject}
+                >
+                    <TwitterLoginButton style={{ fontSize: '1rem' }} />
+                </LoginSocialTwitter>
+                <LoginSocialMicrosoft
+                    client_id={process.env.REACT_APP_MICROSOFT_CLIENT_ID || ''}
+                    redirect_uri={process.env.REACT_APP_MICROSOFT_REDIRECT_URI || ''}
+                    onLoginStart={handleLoginStart}
+                    onResolve={handleLoginResolve}
+                    onReject={handleLoginReject}
+                >
+                    <MicrosoftLoginButton style={{ fontSize: '1rem' }} />
+                </LoginSocialMicrosoft>
+            </Stack>
             <Divider>OR</Divider>
             {controls}
-            <Stack direction="row" alignItems="center" justifyContent="space-between">
+            <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
                 <FormGroup>
                     <FormControlLabel control={<Checkbox defaultChecked />} label="Remember me?" />
                 </FormGroup>
                 <Link href="#">Forgot password?</Link>
-            </Stack>
+            </Box>
             {fetching && <LinearProgress />}
             {errors.length > 0 && <ErrorList errors={errors} />}
             <Button variant="contained" color="primary" disabled={!isPristine} onClick={handleClick}>Login</Button>
