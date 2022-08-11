@@ -26,6 +26,7 @@ namespace ShareMyCalendar.API.Tests
             var actual = LoginSuccessResponseMapper.Map(source);
 
             // Assert
+            Assert.True(false);
             Assert.Equal(user.Id, actual.Id);
             Assert.Equal(userName, actual.UserName);
             Assert.Equal(accessToken, actual.AccessToken);
