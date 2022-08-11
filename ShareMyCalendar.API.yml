@@ -18,18 +18,18 @@ steps:
   inputs:
     command: 'restore'
     feedsToUse: 'select'
-    projects: 'ShareMyCalendar.API.csproj'
+    projects: '.'
     workingDirectory: 'ShareMyCalendar.API'
 - task: DotNetCoreCLI@2
   displayName: 'dotnet build'
   inputs:
     command: 'build'
-    projects: 'ShareMyCalendar.API.csproj'
+    projects: '.'
     workingDirectory: 'ShareMyCalendar.API'
 - task: DotNetCoreCLI@2
   displayName: 'dotnet publish'
   inputs:
     command: 'publish'
     publishWebProjects: false
-    projects: 'ShareMyCalendar.API.csproj'
+    projects: '.'
     workingDirectory: 'ShareMyCalendar.API'
