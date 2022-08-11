@@ -20,6 +20,11 @@ steps:
     arguments: '--configuration $(buildConfiguration)'
     projects: 'ShareMyCalendar.API/ShareMyCalendar.API.csproj'
 - task: DotNetCoreCLI@2
+  inputs:
+    command: 'test'
+    projects: 'ShareMyCalendar.API.Tests/ShareMyCalendar.API.Tests.csproj'
+    testRunTitle: 'Test Results'
+- task: DotNetCoreCLI@2
   displayName: 'dotnet publish $(buildConfiguration)'
   inputs:
     command: 'publish'
