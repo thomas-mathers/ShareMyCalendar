@@ -14,13 +14,15 @@ variables:
 
 steps:
 - task: DotNetCoreCLI@2
-  displayName: 'dotnet build'
+  displayName: 'dotnet build $(buildConfiguration)'
   inputs:
     command: 'build'
+    arguments: '--configuration $(buildConfiguration)'
     projects: 'ShareMyCalendar.API/ShareMyCalendar.API.csproj'
 - task: DotNetCoreCLI@2
-  displayName: 'dotnet publish'
+  displayName: 'dotnet publish $(buildConfiguration)'
   inputs:
     command: 'publish'
+    arguments: '--configuration $(buildConfiguration)'
     publishWebProjects: false
     projects: 'ShareMyCalendar.API/ShareMyCalendar.API.csproj'
