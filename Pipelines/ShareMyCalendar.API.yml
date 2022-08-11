@@ -14,20 +14,26 @@ variables:
 
 steps:
 - task: DotNetCoreCLI@2
-  displayName: 'dotnet build $(buildConfiguration)'
+  displayName: 'dotnet build'
   inputs:
     command: 'build'
     arguments: '--configuration $(buildConfiguration)'
     projects: 'ShareMyCalendar.API/ShareMyCalendar.API.csproj'
 - task: DotNetCoreCLI@2
-  displayName: 'dotnet publish $(buildConfiguration)'
+  displayName: 'dotnet test'
+  inputs:
+    command: 'test'
+    projects: 'ShareMyCalendar.API.Tests/ShareMyCalendar.API.Tests.csproj'
+    testRunTitle: 'Test Results'
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet publish'
   inputs:
     command: 'publish'
     arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     publishWebProjects: false
     projects: 'ShareMyCalendar.API/ShareMyCalendar.API.csproj'
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish Build Artifact'
+  displayName: 'Publish artifact'
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
