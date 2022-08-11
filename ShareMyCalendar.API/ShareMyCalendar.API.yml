@@ -18,3 +18,9 @@ steps:
   inputs:
     command: 'build'
     projects: 'ShareMyCalendar.API/ShareMyCalendar.API.csproj'
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet publish'
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    projects: 'ShareMyCalendar.API/ShareMyCalendar.API.csproj'
