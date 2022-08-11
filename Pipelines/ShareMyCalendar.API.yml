@@ -5,6 +5,7 @@ trigger:
   paths:
     include:
       - ShareMyCalendar.API
+      - ShareMyCalendar.API.Tests
 
 pool:
   vmImage: ubuntu-latest
