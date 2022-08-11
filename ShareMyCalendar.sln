@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShareMyCalendar.API", "Shar
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "ShareMyCalendar.Frontend", "ShareMyCalendar.Frontend\ShareMyCalendar.Frontend.esproj", "{82C26713-1B8C-43B3-ABCF-4584479E6ABA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShareMyCalendar.API.Tests", "ShareMyCalendar.API.Tests\ShareMyCalendar.API.Tests.csproj", "{DDBFA75E-89E0-4D27-8E6F-41C4EDE330A0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{82C26713-1B8C-43B3-ABCF-4584479E6ABA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82C26713-1B8C-43B3-ABCF-4584479E6ABA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{82C26713-1B8C-43B3-ABCF-4584479E6ABA}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{DDBFA75E-89E0-4D27-8E6F-41C4EDE330A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDBFA75E-89E0-4D27-8E6F-41C4EDE330A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDBFA75E-89E0-4D27-8E6F-41C4EDE330A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDBFA75E-89E0-4D27-8E6F-41C4EDE330A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
