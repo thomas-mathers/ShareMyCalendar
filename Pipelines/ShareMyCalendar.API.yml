@@ -14,22 +14,21 @@ variables:
 
 steps:
 - task: DotNetCoreCLI@2
-  displayName: 'dotnet restore'
-  inputs:
-    command: 'restore'
-    feedsToUse: 'select'
-    projects: '.'
-    workingDirectory: 'ShareMyCalendar.API'
-- task: DotNetCoreCLI@2
-  displayName: 'dotnet build'
+  displayName: 'dotnet build $(buildConfiguration)'
   inputs:
     command: 'build'
-    projects: '.'
-    workingDirectory: 'ShareMyCalendar.API'
+    arguments: '--configuration $(buildConfiguration)'
+    projects: 'ShareMyCalendar.API/ShareMyCalendar.API.csproj'
 - task: DotNetCoreCLI@2
-  displayName: 'dotnet publish'
+  displayName: 'dotnet publish $(buildConfiguration)'
   inputs:
     command: 'publish'
+    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     publishWebProjects: false
-    projects: '.'
-    workingDirectory: 'ShareMyCalendar.API'
+    projects: 'ShareMyCalendar.API/ShareMyCalendar.API.csproj'
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Build Artifact'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
