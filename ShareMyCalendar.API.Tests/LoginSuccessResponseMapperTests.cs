@@ -7,7 +7,6 @@ namespace ShareMyCalendar.API.Tests
     public class LoginSuccessResponseMapperTests
     {
         [Theory]
-        [InlineData("42973335-774b-4136-8c8c-766000e5e4e3", null, null)]
         [InlineData("42973335-774b-4136-8c8c-766000e5e4e3", null, "")]
         [InlineData("42973335-774b-4136-8c8c-766000e5e4e3", "", null)]
         [InlineData("42973335-774b-4136-8c8c-766000e5e4e3", "", "")]
