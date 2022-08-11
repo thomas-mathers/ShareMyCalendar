@@ -23,6 +23,12 @@ steps:
   displayName: 'dotnet publish $(buildConfiguration)'
   inputs:
     command: 'publish'
-    arguments: '--configuration $(buildConfiguration)'
+    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     publishWebProjects: false
     projects: 'ShareMyCalendar.API/ShareMyCalendar.API.csproj'
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Build Artifact'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
