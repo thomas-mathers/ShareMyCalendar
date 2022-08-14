@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import ErrorMessage from './error-message';
+import { ErrorMessage } from 'thomasmathers.react.hooks';
 
 interface Props {
   errors: string[];
