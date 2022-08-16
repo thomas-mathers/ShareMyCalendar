@@ -1,7 +1,7 @@
 import { TextField, Button } from '@mui/material';
 import StackPage from './stack-page';
 
-function ResetPassword() {
+function ForgotPassword() {
     return (
         <StackPage title="Reset Password">
             <TextField label="Username" />
@@ -10,4 +10,4 @@ function ResetPassword() {
     );
 }
 
-export default ResetPassword
+export default ForgotPassword

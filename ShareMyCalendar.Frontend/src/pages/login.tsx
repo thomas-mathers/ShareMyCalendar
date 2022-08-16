@@ -1,5 +1,5 @@
 import { useMemo, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link as RouterLink, } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -18,10 +18,16 @@ import StackPage from './stack-page';
 import {
   LoginSocialFacebook,
   LoginSocialGoogle,
-  LoginSocialMicrosoft,
+  LoginSocialTwitter,
+  LoginSocialApple,
   IResolveParams,
 } from 'reactjs-social-login';
-import { FacebookLoginButton, GoogleLoginButton, MicrosoftLoginButton, TwitterLoginButton } from "react-social-login-buttons";
+import {
+  AppleLoginButton,
+  FacebookLoginButton,
+  GoogleLoginButton,
+  TwitterLoginButton
+} from "react-social-login-buttons";
 
 function Login() {
   const { controls, values, isPristine } = useForm({
@@ -100,6 +106,7 @@ function Login() {
           onLoginStart={handleLoginStart}
           onResolve={handleLoginResolve}
           onReject={handleLoginReject}
+          isOnlyGetToken={true}
         >
           <FacebookLoginButton style={{ fontSize: '1rem' }} />
         </LoginSocialFacebook>
@@ -108,18 +115,29 @@ function Login() {
           onLoginStart={handleLoginStart}
           onResolve={handleLoginResolve}
           onReject={handleLoginReject}
+          isOnlyGetToken={true}
         >
           <GoogleLoginButton style={{ fontSize: '1rem' }} />
         </LoginSocialGoogle>
-        <LoginSocialMicrosoft
-          client_id={process.env.REACT_APP_MICROSOFT_CLIENT_ID || ''}
+        <LoginSocialTwitter
+          client_id={process.env.REACT_APP_TWITTER_CLIENT_ID || ''}
+          redirect_uri={process.env.REACT_APP_BASE_URL || ''}
+          onLoginStart={handleLoginStart}
+          onResolve={handleLoginResolve}
+          onReject={handleLoginReject}
+          isOnlyGetToken={true}
+        >
+          <TwitterLoginButton style={{ fontSize: '1rem' }} />
+        </LoginSocialTwitter>
+        <LoginSocialApple
+          client_id={process.env.REACT_APP_APPLE_CLIENT_ID || ''}
           redirect_uri={process.env.REACT_APP_BASE_URL || ''}
           onLoginStart={handleLoginStart}
           onResolve={handleLoginResolve}
           onReject={handleLoginReject}
         >
-          <MicrosoftLoginButton style={{ fontSize: '1rem' }} />
-        </LoginSocialMicrosoft>
+          <AppleLoginButton style={{ fontSize: '1rem' }} />
+        </LoginSocialApple>
       </Stack>
       <Divider>OR</Divider>
       {controls}
@@ -127,13 +145,13 @@ function Login() {
         <FormGroup>
           <FormControlLabel control={<Checkbox defaultChecked />} label="Remember me?" />
         </FormGroup>
-        <Link href="#">Forgot password?</Link>
+        <Link component={RouterLink} to="/forgot-password">Forgot password?</Link>
       </Box>
       {fetching && <LinearProgress />}
       {errors.length > 0 && <ErrorList errors={errors} />}
       <Button variant="contained" color="primary" disabled={!isPristine} onClick={handleClick}>Login</Button>
       <Box textAlign="center">
-        Need an account? <Link href="register">Sign Up</Link>
+        Need an account? <Link component={RouterLink} to="/register">Sign Up</Link>
       </Box>
     </StackPage>
   );

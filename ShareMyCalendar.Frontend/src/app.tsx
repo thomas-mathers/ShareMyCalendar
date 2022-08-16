@@ -9,7 +9,7 @@ import '@fontsource/roboto/700.css';
 
 import { CssBaseline } from '@mui/material';
 
-import { ChangePassword, Dashboard, Login, Register, ResetPassword, ConfirmEmail } from './pages';
+import { ChangePassword, Dashboard, Login, Register, ForgotPassword, ConfirmEmail } from './pages';
 
 function App() {
     return (
@@ -22,7 +22,7 @@ function App() {
                     <Route path="/register" element={<Register />} />
                     <Route path="/confirm-email" element={<ConfirmEmail />} />
                     <Route path="/change-password" element={<ChangePassword />} />
-                    <Route path="/reset-password" element={<ResetPassword />} />
+                    <Route path="/forgot-password" element={<ForgotPassword />} />
                 </Routes>
             </BrowserRouter>
         </Fragment>
