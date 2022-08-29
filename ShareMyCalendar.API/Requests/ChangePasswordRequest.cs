@@ -1,11 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace ShareMyCalendar.API.Requests;
 
-namespace ShareMyCalendar.API.Requests
+public record ChangePasswordRequest
 {
-    public record ChangePasswordRequest
-    {
-        public string CurrentPassword { get; init; }
-        public string Token { get; init; }
-        public string NewPassword { get; init; }
-    }
+    public string CurrentPassword { get; init; } = string.Empty;
+    public string Token { get; init; } = string.Empty;
+    public string NewPassword { get; init; } = string.Empty;
 }

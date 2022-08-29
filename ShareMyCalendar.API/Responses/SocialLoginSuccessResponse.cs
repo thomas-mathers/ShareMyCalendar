@@ -1,6 +1,6 @@
 ﻿namespace ShareMyCalendar.API.Responses;
 
-public class LoginSuccessResponse
+public class SocialLoginSuccessResponse
 {
     public Guid Id { get; set; }
     public string? UserName { get; set; }

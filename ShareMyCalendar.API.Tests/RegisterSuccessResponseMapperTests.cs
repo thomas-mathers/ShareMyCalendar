@@ -1,28 +1,29 @@
+using AutoFixture;
+
 using ShareMyCalendar.API.Mappers;
-using ThomasMathers.Infrastructure.IAM.Data;
+
+using ThomasMathers.Infrastructure.IAM.Responses;
+
 using Xunit;
 
-namespace ShareMyCalendar.API.Tests
+namespace ShareMyCalendar.API.Tests;
+
+public class RegisterSuccessResponseMapperTests
 {
-    public class RegisterSuccessResponseMapperTests
+    private readonly Fixture _fixture;
+
+    public RegisterSuccessResponseMapperTests() => _fixture = new Fixture();
+
+    [Fact]
+    public void Map_AnyInput_ReturnsCorrectOutput()
     {
-        [Theory]
-        [InlineData("00000000-0000-0000-0000-000000000000")]
-        [InlineData("42973335-774b-4136-8c8c-766000e5e4e3")]
-        public void Map_AnyInput_ReturnsCorrectOutput(string id)
-        {
-            // Arrange
-            var user = new User
-            {
-                Id = Guid.Parse(id)
-            };
-            var source = new ThomasMathers.Infrastructure.IAM.Responses.RegisterSuccessResponse(user);
+        // Arrange
+        var source = _fixture.Create<RegisterSuccessResponse>();
 
-            // Act
-            var actual = RegisterSuccessResponseMapper.Map(source);
+        // Act
+        var actual = RegisterSuccessResponseMapper.Map(source);
 
-            // Assert
-            Assert.Equal(user.Id, actual.Id);
-        }
+        // Assert
+        Assert.Equal(source.User.Id, actual.Id);
     }
 }

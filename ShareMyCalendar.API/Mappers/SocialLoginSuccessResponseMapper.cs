@@ -2,9 +2,9 @@
 
 namespace ShareMyCalendar.API.Mappers;
 
-public static class LoginSuccessResponseMapper
+public class SocialLoginSuccessResponseMapper
 {
-    public static LoginSuccessResponse Map(ThomasMathers.Infrastructure.IAM.Responses.LoginSuccessResponse source) => new()
+    public static SocialLoginSuccessResponse Map(ThomasMathers.Infrastructure.IAM.Social.Responses.SocialLoginSuccessResponse source) => new()
     {
         Id = source.User.Id,
         UserName = source.User.UserName,

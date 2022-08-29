@@ -1,14 +1,14 @@
 ﻿using FluentValidation;
+
 using ShareMyCalendar.API.Requests;
 
-namespace ShareMyCalendar.API.Validators
+namespace ShareMyCalendar.API.Validators;
+
+public class LoginRequestValidator : AbstractValidator<LoginRequest>
 {
-    public class LoginRequestValidator : AbstractValidator<LoginRequest>
+    public LoginRequestValidator()
     {
-        public LoginRequestValidator()
-        {
-            RuleFor(x => x.UserName).NotEmpty();
-            RuleFor(x => x.Password).NotEmpty();
-        }
+        _ = RuleFor(x => x.UserName).NotEmpty();
+        _ = RuleFor(x => x.Password).NotEmpty();
     }
 }

@@ -1,15 +1,11 @@
 ﻿using ShareMyCalendar.API.Responses;
 
-namespace ShareMyCalendar.API.Mappers
+namespace ShareMyCalendar.API.Mappers;
+
+public static class RegisterSuccessResponseMapper
 {
-    public static class RegisterSuccessResponseMapper
+    public static RegisterSuccessResponse Map(ThomasMathers.Infrastructure.IAM.Responses.RegisterSuccessResponse source) => new()
     {
-        public static RegisterSuccessResponse Map(ThomasMathers.Infrastructure.IAM.Responses.RegisterSuccessResponse source)
-        {
-            return new RegisterSuccessResponse
-            {
-                Id = source.User.Id
-            };
-        }
-    }
+        Id = source.User.Id
+    };
 }

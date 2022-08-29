@@ -1,7 +1,6 @@
-﻿namespace ShareMyCalendar.API.Responses
+﻿namespace ShareMyCalendar.API.Responses;
+
+public class RegisterSuccessResponse
 {
-    public class RegisterSuccessResponse
-    {
-        public Guid Id { get; set; }
-    }
+    public Guid Id { get; set; }
 }

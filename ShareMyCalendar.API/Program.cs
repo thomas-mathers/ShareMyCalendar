@@ -1,12 +1,16 @@
 using FluentValidation.AspNetCore;
+
+using Microsoft.OpenApi.Models;
+
+using ShareMyCalendar.API;
+
 using System.Reflection;
 using System.Text.Json.Serialization;
-using ThomasMathers.Infrastructure.ResponseWrapping.Extensions;
+
 using ThomasMathers.Infrastructure.Email.Extensions;
 using ThomasMathers.Infrastructure.IAM.Emails.Extensions;
 using ThomasMathers.Infrastructure.IAM.Extensions;
-using ShareMyCalendar.API;
-using Microsoft.OpenApi.Models;
+using ThomasMathers.Infrastructure.ResponseWrapping.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

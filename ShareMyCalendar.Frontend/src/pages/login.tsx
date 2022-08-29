@@ -18,15 +18,11 @@ import StackPage from './stack-page';
 import {
   LoginSocialFacebook,
   LoginSocialGoogle,
-  LoginSocialTwitter,
-  LoginSocialApple,
   IResolveParams,
 } from 'reactjs-social-login';
 import {
-  AppleLoginButton,
   FacebookLoginButton,
   GoogleLoginButton,
-  TwitterLoginButton
 } from "react-social-login-buttons";
 
 function Login() {
@@ -119,25 +115,6 @@ function Login() {
         >
           <GoogleLoginButton style={{ fontSize: '1rem' }} />
         </LoginSocialGoogle>
-        <LoginSocialTwitter
-          client_id={process.env.REACT_APP_TWITTER_CLIENT_ID || ''}
-          redirect_uri={process.env.REACT_APP_BASE_URL || ''}
-          onLoginStart={handleLoginStart}
-          onResolve={handleLoginResolve}
-          onReject={handleLoginReject}
-          isOnlyGetToken={true}
-        >
-          <TwitterLoginButton style={{ fontSize: '1rem' }} />
-        </LoginSocialTwitter>
-        <LoginSocialApple
-          client_id={process.env.REACT_APP_APPLE_CLIENT_ID || ''}
-          redirect_uri={process.env.REACT_APP_BASE_URL || ''}
-          onLoginStart={handleLoginStart}
-          onResolve={handleLoginResolve}
-          onReject={handleLoginReject}
-        >
-          <AppleLoginButton style={{ fontSize: '1rem' }} />
-        </LoginSocialApple>
       </Stack>
       <Divider>OR</Divider>
       {controls}

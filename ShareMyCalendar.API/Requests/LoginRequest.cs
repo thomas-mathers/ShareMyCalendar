@@ -1,10 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace ShareMyCalendar.API.Requests;
 
-namespace ShareMyCalendar.API.Requests
+public record LoginRequest
 {
-    public record LoginRequest
-    {
-        public string UserName { get; init; }
-        public string Password { get; init; }
-    }
+    public string UserName { get; init; } = string.Empty;
+    public string Password { get; init; } = string.Empty;
 }
