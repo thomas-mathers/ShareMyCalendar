@@ -1,5 +1,5 @@
 interface RegisterSuccessResponse {
-    id: string;
+  id: string;
 }
 
 export default RegisterSuccessResponse;

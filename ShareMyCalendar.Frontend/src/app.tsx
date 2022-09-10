@@ -12,21 +12,21 @@ import { CssBaseline } from '@mui/material';
 import { ChangePassword, Dashboard, Login, Register, ForgotPassword, ConfirmEmail } from './pages';
 
 function App() {
-    return (
-        <Fragment>
-            <CssBaseline/>
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/" element={<Login />} />
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route path="/confirm-email" element={<ConfirmEmail />} />
-                    <Route path="/change-password" element={<ChangePassword />} />
-                    <Route path="/forgot-password" element={<ForgotPassword />} />
-                </Routes>
-            </BrowserRouter>
-        </Fragment>
-    );
+  return (
+    <Fragment>
+      <CssBaseline />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/confirm-email" element={<ConfirmEmail />} />
+          <Route path="/change-password" element={<ChangePassword />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+        </Routes>
+      </BrowserRouter>
+    </Fragment>
+  );
 }
 
 export default App;
